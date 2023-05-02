@@ -262,7 +262,7 @@ public class Indexer {
             Words.clear();
             ElementsWithoutChild.clear();
             Documents.clear();
-            WordPriority.clear();
+            WordPriority.clear();;
         }
     }
 }

@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="540df1e2-074a-4496-9be9-4e73b21510b3" name="Changes" comment="Add Files">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/seedsets.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Indexer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/URLDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/WordDocuement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/stopwords.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Search Engine Project (S2023).pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Search Engine Project (S2023).pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" />
-    </list>
+    <list default="true" id="540df1e2-074a-4496-9be9-4e73b21510b3" name="Changes" comment="extra imports" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,6 +70,7 @@
       <workItem from="1682546879567" duration="930000" />
       <workItem from="1682610129938" duration="19286000" />
       <workItem from="1682684813453" duration="20174000" />
+      <workItem from="1683057142462" duration="328000" />
     </task>
     <task id="LOCAL-00001" summary="Add Files">
       <created>1682546577429</created>
@@ -97,7 +86,70 @@
       <option name="project" value="LOCAL" />
       <updated>1682547012880</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add seedsets text file to read URLs">
+      <created>1683057193628</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1683057193628</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add stopwords text file">
+      <created>1683057211922</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1683057211922</updated>
+    </task>
+    <task id="LOCAL-00005" summary="class Url structure">
+      <created>1683057254110</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1683057254110</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Class word document structure">
+      <created>1683057274824</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1683057274824</updated>
+    </task>
+    <task id="LOCAL-00007" summary="PDF of Project">
+      <created>1683057287207</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1683057287207</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add Indexer class with utilities functions and all Imports">
+      <created>1683057333886</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1683057333886</updated>
+    </task>
+    <task id="LOCAL-00009" summary="these two classes added to check all features with MongoDB before start coding">
+      <created>1683057399238</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1683057399238</updated>
+    </task>
+    <task id="LOCAL-00010" summary="extra imports">
+      <created>1683057439532</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1683057439532</updated>
+    </task>
+    <task id="LOCAL-00011" summary="extra imports">
+      <created>1683057464491</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1683057464491</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -116,22 +168,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add Files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Files" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Indexer.java</url>
-          <line>266</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Indexer.java</url>
-          <line>233</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="add seedsets text file to read URLs" />
+    <MESSAGE value="add stopwords text file" />
+    <MESSAGE value="class Url structure" />
+    <MESSAGE value="Class word document structure" />
+    <MESSAGE value="PDF of Project" />
+    <MESSAGE value="add Indexer class with utilities functions and all Imports" />
+    <MESSAGE value="these two classes added to check all features with MongoDB before start coding" />
+    <MESSAGE value="extra imports" />
+    <option name="LAST_COMMIT_MESSAGE" value="extra imports" />
   </component>
 </project>

@@ -1,6 +1,6 @@
 public class URLDocument
 {
     String URL_name;
-    int TermFrequency;
+    int TermFrequency;;
     Integer Priority;
 }
