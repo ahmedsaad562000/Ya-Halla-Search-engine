@@ -5,20 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="540df1e2-074a-4496-9be9-4e73b21510b3" name="Changes" comment="Updates for Indexer">
-      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Logger_custom/Logger_custom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/MainCrawler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/MainCrawler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/DBController/DB_Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DBController/DB_Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Indexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Indexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Ranker/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ranker/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Ranker/Ranker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ranker/Ranker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/DBController/DB_Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/DBController/DB_Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Indexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Indexer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Ranker/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Ranker/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Ranker/Ranker$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Ranker/Ranker.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Ranker/Ranker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/URLDocument.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/URLDocument.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,29 +38,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "true",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/APT/Project/lib/snowball-stemmer-1.3.0.581.1.jar",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.29770115",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/APT/Project/lib/snowball-stemmer-1.3.0.581.1.jar&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.29770115&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -78,7 +69,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.MainCrawler">
     <configuration name="Indexer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Indexer" />
       <module name="Search-engine-Project" />
@@ -108,9 +99,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MainCrawler" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.Indexer" />
-        <item itemvalue="Application.MainCrawler" />
       </list>
     </recent_temporary>
   </component>
