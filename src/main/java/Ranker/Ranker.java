@@ -1,9 +1,11 @@
 package Ranker;
+
 import DBController.DB_Controller;
 import Logger_custom.Logger_custom;
 import org.bson.Document;
 
 import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 /**
@@ -13,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class Ranker<T> {
 
-    private static final Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null);
+    private static final Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null, Level.FINER);
     /**
      * The Page graph.
      */
@@ -71,6 +73,7 @@ public class Ranker<T> {
             double tfidf_score = tfidf.get(key) != null ? tfidf.get(key) : 0;
             double pagerank_score = pagerank.get(key) != null ? pagerank.get(key) : 0;
             double combined_score = (TFIDF_settings.final_weight) * tfidf_score + (PR_settings.final_weight * pagerank_score);
+//            double combined_score = calculateHarmonicMean(tfidf_score, pagerank_score);
             combined_rank.put(key, combined_score);
         }
         return combined_rank;
@@ -118,14 +121,23 @@ public class Ranker<T> {
             return query_result;
         } else {
             logger.info("Query is not cached");
+            long start_tfidf = System.currentTimeMillis();
             LinkedHashMap<String, Double> relevant_pages = startRelevanceRank(query);
+            long end_tfidf = System.currentTimeMillis();
+            logger.config("TF-IDF time: " + (end_tfidf - start_tfidf) + "ms");
             logger.info("Relevant pages: " + relevant_pages);
             logger.info("PageRank started");
+            long start_pr = System.currentTimeMillis();
             startPageRank(relevant_pages.keySet().toArray(new String[0]));
+            long end_pr = System.currentTimeMillis();
+            logger.config("TF-IDF time: " + (end_pr - start_pr) + "ms");
             logger.info("PageRank finished");
             logger.info("Page ranks results: " + pageRanks.toString());
-            logger.info("TF-IDF results: " + relevant_pages.toString());
+            logger.info("TF-IDF results: " + relevant_pages);
+            long start_combine = System.currentTimeMillis();
             HashMap<String, Double> combined_rank = combineScores(relevant_pages, (HashMap<String, Double>) pageRanks);
+            long end_combine = System.currentTimeMillis();
+            logger.config("Combine time: " + (end_combine - start_combine) + "ms");
             logger.info("Combined results: (PR weight = "
                     + PR_settings.final_weight
                     + ", TFIDF weight = "
@@ -149,7 +161,7 @@ public class Ranker<T> {
             pageGraph.addEdge(
                     document.get("src_id", String.class),
                     document.get("dest_id", String.class),
-                    document.get("bid", Boolean.class));
+                    false);
         }
     }
 
@@ -231,7 +243,7 @@ public class Ranker<T> {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         logger.info(pageRanks.toString());
         if (!stop)
-            logger.info("Iterations reached maximum");
+            logger.finer("Iterations reached maximum");
         return pageRanks;
     }
 
@@ -398,7 +410,7 @@ public class Ranker<T> {
 //        logger.info(documents_vector.toString());
 
         // Calculate relevance score for each page
-        Set<String> querySet = Set.of(query);
+        Set<String> querySet = new HashSet<>(Arrays.asList(query));
         HashMap<String, Double> relevantDocuments = new HashMap<>();
         for (String doc : documents_vector.keySet()) {
             relevantDocuments.put(doc, calculateSingleDocumentRelevance(querySet, query_vector, documents_vector.get(doc)));

@@ -1,25 +1,28 @@
 package Ranker;
 
+import Logger_custom.Logger_custom;
+
 import java.util.HashMap;
+import java.util.logging.Level;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
-        String[] q = {"iphone","buy","phone"};
-
+        String[] q = {"career"};
+        Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null, Level.FINER);
         long start = System.currentTimeMillis();
         Ranker r = new Ranker();
         // Set page rank algorithm settings
         Ranker.PageRank_Settings settings = new Ranker.PageRank_Settings();
         settings.iterations = 100;
         settings.dampingFactor = 0.85;
-        settings.convergenceThreshold = 0.00001;
-        settings.final_weight = 0.1;
+        settings.convergenceThreshold = 0.001;
+        settings.final_weight = 0.3f;
 
         // Set TF-IDF algorithm settings
         Ranker.TFIDF_Settings tfidf_settings = new Ranker.TFIDF_Settings();
         tfidf_settings.topK = 10;
-        tfidf_settings.final_weight = 0.7;
+        tfidf_settings.final_weight = 0.7f;
 
         r.setTFIDFSettings(tfidf_settings);
         r.setPageRankSettings(settings);
@@ -31,8 +34,8 @@ public class Main {
         results.forEach((k, v) -> System.out.println(k + " " + v));
 
         long end = System.currentTimeMillis();
-        System.out.println("Ranker took " + (end - start) / 1000f + " seconds in total");
-        System.out.println("Ranking took " + (end_ranking - start_ranking) / 1000f + " seconds net");
+        logger.config("Ranker took " + (end - start) / 1000f + " seconds in total");
+        logger.config("Ranking took " + (end_ranking - start_ranking) / 1000f + " seconds net");
 
     }
 }
