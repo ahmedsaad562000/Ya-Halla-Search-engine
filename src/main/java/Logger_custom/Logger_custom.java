@@ -1,7 +1,10 @@
 package Logger_custom;
 
 import java.util.MissingResourceException;
-import java.util.logging.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 /**
  * The type Logger custom.
@@ -18,6 +21,30 @@ public class Logger_custom extends java.util.logging.Logger {
     public static final String ANSI_WHITE = "\u001B[37m";
 
     /**
+     * Protected method to construct a logger for a named subsystem.
+     * <p>
+     * The logger will be initially configured with a null Level
+     * and with useParentHandlers set to true.
+     *
+     * @param name               A name for the logger.  This should                           be a dot-separated name and should normally                           be based on the package name or class name                           of the subsystem, such as java.net                           or javax.swing.  It may be null for anonymous Loggers.
+     * @param resourceBundleName name of ResourceBundle to be used for localizing                           messages for this logger.  May be null if none                           of the messages require localization.
+     * @throws MissingResourceException if the resourceBundleName is non-null and                                  no corresponding resource can be found.
+     */
+    public Logger_custom(String name, String resourceBundleName, Level maxLevel) throws MissingResourceException {
+        super(name, resourceBundleName);
+        ConsoleHandler handler = new ConsoleHandler();
+        // Create a custom Formatter
+        LoggingFormatter formatter = new LoggingFormatter();
+        // Set the Formatter on the handler
+        handler.setFormatter(formatter);
+        // Add the handler to the logger
+        this.addHandler(handler);
+        handler.setLevel(Level.ALL);
+        this.setLevel(Level.ALL);
+
+    }
+
+    /**
      * The type Logging formatter.
      */
     public class LoggingFormatter extends Formatter {
@@ -25,6 +52,7 @@ public class Logger_custom extends java.util.logging.Logger {
         public String format(LogRecord record) {
             String color = "";
             Level level = record.getLevel();
+
             if (Level.SEVERE.equals(level)) {
                 color = ANSI_RED;
             } else if (Level.WARNING.equals(level)) {
@@ -42,27 +70,6 @@ public class Logger_custom extends java.util.logging.Logger {
             }
             return color + "[" + record.getLevel() + "]" + "[" + record.getSourceClassName() + "]" + ": " + record.getMessage() + "\n" + ANSI_RESET;
         }
-    }
-
-    /**
-     * Protected method to construct a logger for a named subsystem.
-     * <p>
-     * The logger will be initially configured with a null Level
-     * and with useParentHandlers set to true.
-     *
-     * @param name               A name for the logger.  This should                           be a dot-separated name and should normally                           be based on the package name or class name                           of the subsystem, such as java.net                           or javax.swing.  It may be null for anonymous Loggers.
-     * @param resourceBundleName name of ResourceBundle to be used for localizing                           messages for this logger.  May be null if none                           of the messages require localization.
-     * @throws MissingResourceException if the resourceBundleName is non-null and                                  no corresponding resource can be found.
-     */
-    public Logger_custom(String name, String resourceBundleName) {
-        super(name, resourceBundleName);
-        ConsoleHandler handler = new ConsoleHandler();
-        // Create a custom Formatter
-        LoggingFormatter formatter = new LoggingFormatter();
-        // Set the Formatter on the handler
-        handler.setFormatter(formatter);
-        // Add the handler to the logger
-        this.addHandler(handler);
     }
 
 }

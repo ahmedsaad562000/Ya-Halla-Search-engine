@@ -10,6 +10,7 @@ import org.bson.conversions.Bson;
 
 import java.text.DateFormat;
 import java.util.*;
+import java.util.logging.Level;
 
 
 public class DB_Controller {
@@ -19,7 +20,7 @@ public class DB_Controller {
     static private final String DATABASE_NAME = "SearchEngine";
     static private final String QUERY_CHACHE_COLLECTION = "QueryCache";
     static private final String INDEXER_LINKS_COLLECTION = "WordDocuments";
-    static private final Logger_custom logger = new Logger_custom(DB_Controller.class.getPackageName(), null);
+    static private final Logger_custom logger = new Logger_custom(DB_Controller.class.getPackageName(), null, Level.FINER);
     static private final String LOCAL_DB_CONNECTION_STRING = "mongodb://localhost:27017";
     static private final String REMOTE_DB_CONNECTION_STRING = "mongodb+srv://ahmedhussein00:9thNQZQc7hANflRt@sw-backend.ktfxxtz.mongodb.net/?retryWrites=true&w=majority";
     static MongoClient client = MongoClients.create(LOCAL_DB_CONNECTION_STRING);
