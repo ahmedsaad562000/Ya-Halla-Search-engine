@@ -1,5 +1,7 @@
 package Crawler;
 import DBController.DB_Controller;
+import com.mongodb.DB;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,6 +18,15 @@ public class MainCrawler {
 
         Thread[] CrawlerThreadList = new Thread[arraylength];
 
+        if (StaticArray.check_Limit()) {
+            DB_Controller.UpdateCrawlerLinksTrigger();
+            DB_Controller.DropCollection("crawler_links");
+            DB_Controller.DropCollection("crawler_relations");
+        }
+        else
+        {
+            DB_Controller.UpdateCrawlerLinksTrigger();
+        }
 
         // initiaizing
 

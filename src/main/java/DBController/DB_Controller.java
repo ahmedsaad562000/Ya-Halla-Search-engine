@@ -4,9 +4,11 @@ import Logger_custom.Logger_custom;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
+import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import java.text.DateFormat;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -14,6 +16,7 @@ import java.util.logging.Level;
 public class DB_Controller {
     private static final String CRAWLER_RELATIONS_COLLECTION = "crawler_relations";
     private static final String CRAWLER_LINKS_COLLECTION = "crawler_links";
+    private static final String TRIGGERS_COLLECTION = "triggers";
     static private final String DATABASE_NAME = "SearchEngine";
     static private final String QUERY_CHACHE_COLLECTION = "QueryCache";
     static private final String INDEXER_LINKS_COLLECTION = "WordDocuments";
@@ -25,6 +28,7 @@ public class DB_Controller {
     public static MongoCollection crawler_links = db.getCollection(CRAWLER_LINKS_COLLECTION);
     public static MongoCollection crawler_relations = db.getCollection(CRAWLER_RELATIONS_COLLECTION);
 
+    public static MongoCollection triggers = db.getCollection(TRIGGERS_COLLECTION);
 
     public static void main(String[] args) {
         /*String[] q = {"css", "career"};
@@ -91,6 +95,25 @@ public class DB_Controller {
         Bson getAllWordsFromQuery = Filters.in("url", Link);
         FindIterable<Document> It = crawler_links.find(getAllWordsFromQuery);
         return Integer.valueOf(It.first().get("doc_id").toString());
+    }
+
+    public static void UpdateCrawlerLinksTrigger() {
+
+        // new date object of current date
+
+
+       UpdateResult ur =  triggers.updateOne(Filters.eq("collection_name", CRAWLER_LINKS_COLLECTION), Updates.set("last_updated", new Date()));
+        System.out.println("hellloooooooooooo");
+       System.out.println(ur.getModifiedCount());
+       if (ur.getModifiedCount() == 0) {
+           Document document = new Document();
+           document.append("collection_name", CRAWLER_LINKS_COLLECTION);
+           document.append("last_updated", new Date());
+           triggers.insertOne(document);
+       }
+    }
+    public static void DropCollection(String collection_name) {
+        db.getCollection(collection_name).drop();
     }
 
     /**
@@ -196,4 +219,5 @@ public class DB_Controller {
         if (col.find(Filters.eq("query", Arrays.asList(query))).first() == null) col.insertOne(cache_result);
         else col.replaceOne(Filters.eq("query", Arrays.asList(query)), cache_result);
     }
+
 }
