@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="540df1e2-074a-4496-9be9-4e73b21510b3" name="Changes" comment="Updates for Indexer">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/CrawlerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/CrawlerThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/MainCrawler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/MainCrawler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/DBController/DB_Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DBController/DB_Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/DBController/DB_Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/DBController/DB_Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/StaticArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/StaticArray.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +92,7 @@
     <configuration name="MainCrawler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Crawler.MainCrawler" />
       <module name="Search-engine-Project" />
+      <option name="PROGRAM_PARAMETERS" value="6000 16" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

@@ -44,6 +44,10 @@ public class StaticArray {
         }
     }
 
+    public static void setLimit(int limit) {
+        Limit = limit;
+    }
+
     public static boolean check_Limit()
     {
         return (DB_Controller.crawler_links.countDocuments() >= Limit);
