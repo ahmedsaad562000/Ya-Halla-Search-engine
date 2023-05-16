@@ -1,24 +1,16 @@
 package DBController;
-
-import com.mongodb.Mongo;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
-import org.bson.*;
 import org.bson.conversions.Bson;
 
-import javax.print.Doc;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Filter;
 
 
 
 public class DB_Controller {
-    static MongoClient client = MongoClients.create("mongodb://localhost:27017/");
+    static MongoClient client = MongoClients.create("mongodb+srv://ahmedhussein00:9thNQZQc7hANflRt@sw-backend.ktfxxtz.mongodb.net/?retryWrites=true&w=majority");
     static MongoDatabase db = client.getDatabase("SearchEngine");
     static MongoCollection col = db.getCollection("Indexer");
     public static MongoCollection crawler_links = db.getCollection("crawler_links");
@@ -65,7 +57,7 @@ public class DB_Controller {
 
     }
 
-    public static synchronized void UploadCrawlerRelation(int srcdid , int destid)
+    public static synchronized void UploadCrawlerRelation(String srcdid , String destid)
     {
         Document document = new Document();
         document.append("src_id", srcdid);

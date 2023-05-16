@@ -1,19 +1,19 @@
 package Crawler;
-
 import DBController.DB_Controller;
 
 import java.net.MalformedURLException;
 
 public class StaticArray {
 
-   /* static ArrayList<String> hash_Set = new ArrayList<String>();
-    static ArrayList<Boolean> bool_hash_set = new ArrayList<Boolean>();*/
+    /* static ArrayList<String> hash_Set = new ArrayList<String>();
+     static ArrayList<Boolean> bool_hash_set = new ArrayList<Boolean>();*/
     static String pdfregex = "^(https?|ftp)://.*(\\.pdf)$";
     static int Limit = 6000;
 
     public synchronized static void add_to_array( int srcid , String Link) throws MalformedURLException
     {
-        long destid = 0;
+
+        String srcLink = "";
         if (Link.startsWith("http") && !Link.matches(pdfregex)) {
             Link = NormalizeURL.normalize(Link);
             Link = NormalizeURL.linkCleaner(Link);
@@ -22,13 +22,14 @@ public class StaticArray {
                 return;
             }*/
             if (DB_Controller.is_present(Link)) {
-            //Nothing
+                //Nothing
 
             }
             else
             {
-                destid = DB_Controller.UploadDocument(Link);
-                DB_Controller.UploadCrawlerRelation(srcid , (int)destid);
+                srcLink = DB_Controller.GetDoc(srcid);
+                DB_Controller.UploadDocument(Link);
+                DB_Controller.UploadCrawlerRelation(srcLink , Link);
             }
         }
     }
