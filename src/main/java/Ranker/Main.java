@@ -8,10 +8,13 @@ import java.util.logging.Level;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
-        String[] q = {"career"};
-        Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null, Level.FINER);
+        String[] q = {"career","css","javascript"};
+
+        Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null);
         long start = System.currentTimeMillis();
+
         Ranker r = new Ranker();
+
         // Set page rank algorithm settings
         Ranker.PageRank_Settings settings = new Ranker.PageRank_Settings();
         settings.iterations = 100;
@@ -29,6 +32,7 @@ public class Main {
 
         long start_ranking = System.currentTimeMillis();
         HashMap<String, Double> results = r.getPageRanks(q);
+
         long end_ranking = System.currentTimeMillis();
 
         results.forEach((k, v) -> System.out.println(k + " " + v));

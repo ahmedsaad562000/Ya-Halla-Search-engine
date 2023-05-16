@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class Ranker<T> {
 
-    private static final Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null, Level.FINER);
+    private static final Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null);
     /**
      * The Page graph.
      */

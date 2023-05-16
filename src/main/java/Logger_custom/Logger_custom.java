@@ -30,7 +30,7 @@ public class Logger_custom extends java.util.logging.Logger {
      * @param resourceBundleName name of ResourceBundle to be used for localizing                           messages for this logger.  May be null if none                           of the messages require localization.
      * @throws MissingResourceException if the resourceBundleName is non-null and                                  no corresponding resource can be found.
      */
-    public Logger_custom(String name, String resourceBundleName, Level maxLevel) throws MissingResourceException {
+    public Logger_custom(String name, String resourceBundleName) throws MissingResourceException {
         super(name, resourceBundleName);
         ConsoleHandler handler = new ConsoleHandler();
         // Create a custom Formatter
