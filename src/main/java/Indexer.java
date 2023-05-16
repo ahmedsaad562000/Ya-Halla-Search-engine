@@ -1,7 +1,4 @@
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
@@ -21,12 +18,14 @@ import java.util.ArrayList;
 
 public class Indexer {
     /* Global Variable that will be used inside main and Utilities Functions */
+    public static List<String> LinksOfCrawler = new ArrayList<>();
     public static List<Document> Documents = new ArrayList<>();
     public static HashMap<String , WordDocuement> DB = new HashMap<>();
     public static List<String> StopWords;
     public static List<Element> ElementsWithoutChild;
     public static List<String> Words = new ArrayList<>();
     public static HashMap<String , Integer> WordPriority = new HashMap<>();
+    public static HashMap<String , String> firstOccurrenceOfWord = new HashMap<>();
     /**************************************************************************/
     /****************************** Utilities Function ************************/
     public static List<String> splitWords(String Lines) {
@@ -103,6 +102,7 @@ public class Indexer {
     }
     public static void InsertIntoHashMap(String URL_Name)
     {
+        Integer index = 0;
         for(String Word : Words)
         {
             if(!DB.containsKey(Word))
@@ -116,6 +116,10 @@ public class Indexer {
                 urlDocument.TermFrequency++;
                 urlDocument.URL_name = URL_Name;
                 urlDocument.Priority = WordPriority.get(Word);
+                // Added //
+                urlDocument.WordPosition.add(index);
+                urlDocument.firstParagraph = firstOccurrenceOfWord.get(Word);
+                //*******//
                 wordDocuement.URLS.add(urlDocument);
                 DB.put(Word , wordDocuement);
             }
@@ -130,6 +134,7 @@ public class Indexer {
                         urlFound = true;
                         urlDocument1.TermFrequency++;
                         urlDocument1.Priority = WordPriority.get(Word);
+                        urlDocument1.WordPosition.add(index);
                         wordDocuement.URLS = urlDocument;
                         DB.put(Word , wordDocuement);
                         break;
@@ -142,10 +147,13 @@ public class Indexer {
                     newURL.TermFrequency++;
                     newURL.URL_name = URL_Name;
                     newURL.Priority = WordPriority.get(Word);
+                    newURL.WordPosition.add(index);
+                    newURL.firstParagraph = firstOccurrenceOfWord.get(Word);
                     wordDocuement.URLS.add(newURL);
                     DB.put(Word , wordDocuement);
                 }
             }
+            ++index;
         }
     }
     public static void convertHashMapToDocument()
@@ -167,27 +175,56 @@ public class Indexer {
                 String urlName = urlDocument.URL_name;
                 String termFrequency = Integer.toString(urlDocument.TermFrequency);
                 Integer Priority = urlDocument.Priority;
+                // Added //
+                List<Integer> WordPositions = urlDocument.WordPosition;
+                String firstParagraph = urlDocument.firstParagraph;
                 List<String> urlDetails = new ArrayList<>();
                 urlDetails.add(urlName); urlDetails.add(termFrequency); urlDetails.add(String.valueOf(Priority));
+                urlDetails.add(WordPositions.toString()); urlDetails.add(firstParagraph);
                 URLS.add(urlDetails);
             }
             documentEntry.put("URLS" , URLS);
             Documents.add(documentEntry);
         }
     }
+    public static void InsertFirstOccurrenceOfString(String paragraph , List<String> word)
+    {
+        word.removeAll(StopWords);
+        for(String str: word)
+        {
+            String tempStr = stemmingOnlyWord(str);
+            if(!firstOccurrenceOfWord.containsKey(tempStr.toLowerCase()))
+            {
+                firstOccurrenceOfWord.put(tempStr.toLowerCase() , paragraph);
+            }
+        }
+    }
     /********************************************************************/
     public static void main(String[] args) throws IOException {
-        MongoClient client = MongoClients.create("mongodb+srv://testUser:mahmoudKK11@cluster0.eptn6lz.mongodb.net/?retryWrites=true&w=majority");
-        MongoDatabase db = client.getDatabase("SampleDB");
-        MongoCollection col = db.getCollection("SampleCollection");
+        MongoClient client = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase db = client.getDatabase("SearchEngine");
+        MongoCollection col = db.getCollection("WordDocuments");
+        MongoCollection<Document> crawlerLinks = db.getCollection("crawler_links");
+        FindIterable<Document> LinksDocuments = crawlerLinks.find();
+        try(MongoCursor<Document> cursor = LinksDocuments.iterator())
+        {
+            while(cursor.hasNext())
+            {
+                Document document = cursor.next();
+                String url = (String) document.get("url");
+                System.out.println(url);
+                LinksOfCrawler.add(url);
+            }
+        }
         ReadStopWords();
+
         /* Create a Buffer reader to read URL Links */
         BufferedReader fileReader = new BufferedReader(new FileReader("seedsets.txt"));
         String fileName = null;
-        while((fileName = fileReader.readLine()) != null)
+        for(String link : LinksOfCrawler)
         {
             try {
-                org.jsoup.nodes.Document doc = Jsoup.connect(fileName).get();
+                org.jsoup.nodes.Document doc = Jsoup.connect(link).get();
                 /* This array will contain only HTML text with Elements without Child */
                 ElementsWithoutChild = new ArrayList<Element>();
                 /* Select all HTML Tags from downloaded Document*/
@@ -204,6 +241,8 @@ public class Indexer {
                     Integer Priority = getPriorityOfWord(element.tagName());
                     String tempStr = element.text();
                     List<String> tempList = splitWords(tempStr);
+                    // Added NOW //
+                    InsertFirstOccurrenceOfString(tempStr , tempList);
                     for(String str: tempList)
                     {
                         String LowerCaseWord = str.toLowerCase();
@@ -229,7 +268,7 @@ public class Indexer {
                 };
                 RemoveStopWordsFromList();
                 WordStemming();
-                InsertIntoHashMap(fileName);
+                InsertIntoHashMap(link);
                 convertHashMapToDocument();
                 for(Document document : Documents)
                 {
@@ -262,7 +301,8 @@ public class Indexer {
             Words.clear();
             ElementsWithoutChild.clear();
             Documents.clear();
-            WordPriority.clear();;
+            WordPriority.clear();
+            firstOccurrenceOfWord.clear();
         }
     }
 }
