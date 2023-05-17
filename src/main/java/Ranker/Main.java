@@ -8,10 +8,13 @@ import java.util.logging.Level;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
-        String[] q = {"career"};
-        Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null, Level.FINER);
+        String[] q = {"inter","milan"};
+
+        Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null);
         long start = System.currentTimeMillis();
+
         Ranker r = new Ranker();
+
         // Set page rank algorithm settings
         Ranker.PageRank_Settings settings = new Ranker.PageRank_Settings();
         settings.iterations = 100;
@@ -21,7 +24,7 @@ public class Main {
 
         // Set TF-IDF algorithm settings
         Ranker.TFIDF_Settings tfidf_settings = new Ranker.TFIDF_Settings();
-        tfidf_settings.topK = 10;
+        tfidf_settings.topK = 0;
         tfidf_settings.final_weight = 0.7f;
 
         r.setTFIDFSettings(tfidf_settings);
@@ -29,6 +32,7 @@ public class Main {
 
         long start_ranking = System.currentTimeMillis();
         HashMap<String, Double> results = r.getPageRanks(q);
+
         long end_ranking = System.currentTimeMillis();
 
         results.forEach((k, v) -> System.out.println(k + " " + v));
