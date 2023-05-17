@@ -47,10 +47,10 @@ public class Logger_custom extends java.util.logging.Logger {
     /**
      * The type Logging formatter.
      */
-    public class LoggingFormatter extends Formatter {
+    public static class LoggingFormatter extends Formatter {
         @Override
         public String format(LogRecord record) {
-            String color = "";
+            String color;
             Level level = record.getLevel();
 
             if (Level.SEVERE.equals(level)) {

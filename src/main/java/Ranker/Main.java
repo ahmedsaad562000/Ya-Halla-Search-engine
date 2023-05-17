@@ -3,12 +3,11 @@ package Ranker;
 import Logger_custom.Logger_custom;
 
 import java.util.HashMap;
-import java.util.logging.Level;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
-        String[] q = {"inter","milan"};
+        String[] q = {"inter", "milan"};
 
         Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null);
         long start = System.currentTimeMillis();
@@ -35,11 +34,12 @@ public class Main {
 
         long end_ranking = System.currentTimeMillis();
 
-        results.forEach((k, v) -> System.out.println(k + " " + v));
+        results.forEach((k, v) -> logger.warning(k + ": " + v));
 
         long end = System.currentTimeMillis();
         logger.config("Ranker took " + (end - start) / 1000f + " seconds in total");
         logger.config("Ranking took " + (end_ranking - start_ranking) / 1000f + " seconds net");
+        logger.config("Ranker returned " + results.size() + " results");
 
     }
 }

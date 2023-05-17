@@ -8,9 +8,7 @@ import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import java.text.DateFormat;
 import java.util.*;
-import java.util.logging.Level;
 
 
 public class DB_Controller {
@@ -18,17 +16,18 @@ public class DB_Controller {
     private static final String CRAWLER_LINKS_COLLECTION = "crawler_links";
     private static final String TRIGGERS_COLLECTION = "triggers";
     static private final String DATABASE_NAME = "SearchEngine";
-    static private final String QUERY_CHACHE_COLLECTION = "QueryCache";
+    static private final String QUERY_CACHE_COLLECTION = "QueryCache";
     static private final String INDEXER_LINKS_COLLECTION = "WordDocuments";
     static private final Logger_custom logger = new Logger_custom(DB_Controller.class.getPackageName(), null);
     static private final String LOCAL_DB_CONNECTION_STRING = "mongodb://localhost:27017";
     static private final String REMOTE_DB_CONNECTION_STRING = "mongodb+srv://ahmedhussein00:9thNQZQc7hANflRt@sw-backend.ktfxxtz.mongodb.net/?retryWrites=true&w=majority";
     static MongoClient client = MongoClients.create(LOCAL_DB_CONNECTION_STRING);
     static MongoDatabase db = client.getDatabase(DATABASE_NAME);
-    public static MongoCollection crawler_links = db.getCollection(CRAWLER_LINKS_COLLECTION);
-    public static MongoCollection crawler_relations = db.getCollection(CRAWLER_RELATIONS_COLLECTION);
-
-    public static MongoCollection triggers = db.getCollection(TRIGGERS_COLLECTION);
+    public static MongoCollection<Document> crawler_links = db.getCollection(CRAWLER_LINKS_COLLECTION);
+    public static MongoCollection<Document> crawler_relations = db.getCollection(CRAWLER_RELATIONS_COLLECTION);
+    public static MongoCollection<Document> indexer_links = db.getCollection(INDEXER_LINKS_COLLECTION);
+    public static MongoCollection<Document> QueryCache = db.getCollection(QUERY_CACHE_COLLECTION);
+    public static MongoCollection<Document> triggers = db.getCollection(TRIGGERS_COLLECTION);
 
     public static void main(String[] args) {
         /*String[] q = {"css", "career"};
@@ -94,7 +93,7 @@ public class DB_Controller {
     public static int Getid(String Link) {
         Bson getAllWordsFromQuery = Filters.in("url", Link);
         FindIterable<Document> It = crawler_links.find(getAllWordsFromQuery);
-        return Integer.valueOf(It.first().get("doc_id").toString());
+        return Integer.parseInt(It.first().get("doc_id").toString());
     }
 
     public static void UpdateCrawlerLinksTrigger() {
@@ -102,16 +101,17 @@ public class DB_Controller {
         // new date object of current date
 
 
-       UpdateResult ur =  triggers.updateOne(Filters.eq("collection_name", CRAWLER_LINKS_COLLECTION), Updates.set("last_updated", new Date()));
+        UpdateResult ur = triggers.updateOne(Filters.eq("collection_name", CRAWLER_LINKS_COLLECTION), Updates.set("last_updated", new Date()));
         System.out.println("hellloooooooooooo");
-       System.out.println(ur.getModifiedCount());
-       if (ur.getModifiedCount() == 0) {
-           Document document = new Document();
-           document.append("collection_name", CRAWLER_LINKS_COLLECTION);
-           document.append("last_updated", new Date());
-           triggers.insertOne(document);
-       }
+        System.out.println(ur.getModifiedCount());
+        if (ur.getModifiedCount() == 0) {
+            Document document = new Document();
+            document.append("collection_name", CRAWLER_LINKS_COLLECTION);
+            document.append("last_updated", new Date());
+            triggers.insertOne(document);
+        }
     }
+
     public static void DropCollection(String collection_name) {
         db.getCollection(collection_name).drop();
     }
@@ -123,12 +123,11 @@ public class DB_Controller {
      * @return the document [ ]
      */
     public Document[] getQueryInfo(String[] query) {
-        MongoDatabase db = client.getDatabase(DATABASE_NAME);
-        MongoCollection col = db.getCollection(INDEXER_LINKS_COLLECTION);
+
         ArrayList<Document> query_info = new ArrayList<>();
 
         Bson getAllWordsFromQuery = Filters.in("word", query);
-        FindIterable<Document> It = col.find(getAllWordsFromQuery);
+        FindIterable<Document> It = indexer_links.find(getAllWordsFromQuery);
         logger.warning(It.toString());
         int i = 0;
         for (Document document : It) {
@@ -146,20 +145,16 @@ public class DB_Controller {
      * @return the document [ ]
      */
     public Document[] getPageRelations(String[] links) {
-        MongoDatabase db = client.getDatabase(DATABASE_NAME);
-        MongoCollection col = db.getCollection(CRAWLER_RELATIONS_COLLECTION);
 
         ArrayList<Document> query_info = new ArrayList<>();
 
         Bson getSources = Filters.in("src_id", links);
         Bson getDestinations = Filters.in("dest_id", links);
 
-        FindIterable<Document> It = col.find(Filters.or(getSources, getDestinations));
+        FindIterable<Document> It = crawler_relations.find(Filters.or(getSources, getDestinations));
         logger.warning(It.toString());
-        int i = 0;
         for (Document document : It) {
             query_info.add(document);
-            i++;
         }
         query_info.forEach(document -> logger.warning(document.toJson()));
         return query_info.toArray(new Document[0]);
@@ -174,7 +169,7 @@ public class DB_Controller {
      */
     public HashMap<String, Double> getCachedQueryResult(String[] query) {
         MongoDatabase db = client.getDatabase(DATABASE_NAME);
-        MongoCollection col = db.getCollection(QUERY_CHACHE_COLLECTION);
+        MongoCollection col = db.getCollection(QUERY_CACHE_COLLECTION);
         Date last_crawl_date = new Date(1647388036);
         Document document = (Document) col.find(Filters.eq("query", Arrays.asList(query))).first();
         if (document != null) {
@@ -204,8 +199,6 @@ public class DB_Controller {
      */
     public void cacheQueryResult(String[] query, HashMap<String, Double> relevant_pages) {
 //        setLastCrawlDate();
-        MongoDatabase db = client.getDatabase(DATABASE_NAME);
-        MongoCollection col = db.getCollection(QUERY_CHACHE_COLLECTION);
         Document cache_result = new Document().append("query", Arrays.asList(query)).append("pages", new ArrayList<>());
 
         for (Map.Entry<String, Double> entry : relevant_pages.entrySet()) {
@@ -216,8 +209,9 @@ public class DB_Controller {
         }
         cache_result.append("date_saved", new Date());
         logger.warning(cache_result.toJson());
-        if (col.find(Filters.eq("query", Arrays.asList(query))).first() == null) col.insertOne(cache_result);
-        else col.replaceOne(Filters.eq("query", Arrays.asList(query)), cache_result);
+        if (QueryCache.find(Filters.eq("query", Arrays.asList(query))).first() == null)
+            QueryCache.insertOne(cache_result);
+        else QueryCache.replaceOne(Filters.eq("query", Arrays.asList(query)), cache_result);
     }
 
 }

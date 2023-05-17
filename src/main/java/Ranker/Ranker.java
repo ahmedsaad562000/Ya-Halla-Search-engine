@@ -7,14 +7,11 @@ import org.bson.Document;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * The type Ranker.
- *
- * @param <T> the type parameter
- */
-public class Ranker<T> {
+
+public class Ranker {
 
     private static final Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null);
+    private final DB_Controller db_controller = new DB_Controller();
     /**
      * The Page graph.
      */
@@ -39,7 +36,6 @@ public class Ranker<T> {
      * The Tfidf settings.
      */
     TFIDF_Settings TFIDF_settings;
-    private DB_Controller db_controller = new DB_Controller();
 
     /**
      * Instantiates a new Ranker.
@@ -51,9 +47,9 @@ public class Ranker<T> {
     /**
      * Calculate harmonic mean.
      *
-     * @param v1
-     * @param v2
-     * @return
+     * @param v1 First value
+     * @param v2 Second value
+     * @return Harmonic mean
      */
     private double calculateHarmonicMean(double v1, double v2) {
         return (v1 * v2) / (v1 + v2);
@@ -62,9 +58,9 @@ public class Ranker<T> {
     /**
      * Combine scores from both TF-IDF & PageRank.
      *
-     * @param tfidf
-     * @param pagerank
-     * @return
+     * @param tfidf    Hashmap of URLs with key being the URL and value being the TF-IDF score
+     * @param pagerank Hashmap of URLs with key being the URL and value being the PageRank score
+     * @return Hashmap of URLs with key being the URL and value being the combined score between TF-IDF & PageRank
      */
     private HashMap<String, Double> combineScores(HashMap<String, Double> tfidf, HashMap<String, Double> pagerank) {
         HashMap<String, Double> combined_rank = new HashMap<>();
@@ -79,8 +75,8 @@ public class Ranker<T> {
     }
 
     /**
-     * @param query
-     * @param relevant_pages
+     * @param query          the query to cache
+     * @param relevant_pages the relevant pages to cache
      */
     private void cacheQueryResult(String[] query, HashMap<String, Double> relevant_pages) {
         db_controller.cacheQueryResult(query, relevant_pages);
@@ -109,12 +105,11 @@ public class Ranker<T> {
      *
      * @param query the query
      * @return the page ranks
-     * @throws InterruptedException the interrupted exception
      */
-    public HashMap<String, Double> getPageRanks(String[] query) throws InterruptedException {
+    public HashMap<String, Double> getPageRanks(String[] query) {
 
         // Check if the query is already cached in DB
-        HashMap query_result = db_controller.getCachedQueryResult(query);
+        HashMap<String, Double> query_result = db_controller.getCachedQueryResult(query);
         if (query_result != null) {
             logger.info("Query is already cached");
             return query_result;
@@ -137,11 +132,7 @@ public class Ranker<T> {
             HashMap<String, Double> combined_rank = combineScores(relevant_pages, (HashMap<String, Double>) pageRanks);
             long end_combine = System.currentTimeMillis();
             logger.config("Combine time: " + (end_combine - start_combine) + "ms");
-            logger.info("Combined results: (PR weight = "
-                    + PR_settings.final_weight
-                    + ", TFIDF weight = "
-                    + TFIDF_settings.final_weight + ")\n"
-                    + combined_rank.toString());
+            logger.info("Combined results: (PR weight = " + PR_settings.final_weight + ", TFIDF weight = " + TFIDF_settings.final_weight + ")\n" + combined_rank);
 
             cacheQueryResult(query, combined_rank);
 //            /////////////////
@@ -165,16 +156,13 @@ public class Ranker<T> {
     /**
      * Initializes the page graph
      *
-     * @param pages
+     * @param pages the page URL array
      */
     private void initializePageRankGraph(String[] pages) {
         pageGraph = new Graph<String>();
         Document[] documents = db_controller.getPageRelations(pages);
         for (Document document : documents) {
-            pageGraph.addEdge(
-                    document.get("src_id", String.class),
-                    document.get("dest_id", String.class),
-                    false);
+            pageGraph.addEdge(document.get("src_id", String.class), document.get("dest_id", String.class), false);
         }
     }
 
@@ -191,7 +179,7 @@ public class Ranker<T> {
     /**
      * Initializes the page ranks
      *
-     * @param initialValue
+     * @param initialValue the initial value to initialize the page ranks before iterating
      */
     private void initializePageRanks(double initialValue) {
         for (String vertex : adjList.keySet()) {
@@ -211,13 +199,11 @@ public class Ranker<T> {
 
     /**
      * Calculates the page rank for each page and returns a map with rank of each page.
-     *
-     * @return
      */
-    private Map<String, Double> calculatePageRank() {
-        double page_rank = 0;
+    private void calculatePageRank() {
+        double page_rank;
         Map<String, Double> lastPageRank = new HashMap<>();
-        Map<String, Double> currentPageRankMap = null;
+        Map<String, Double> currentPageRankMap;
         boolean stop = false;
 
         for (int k = 0; !stop && (k < PR_settings.iterations); k++) {
@@ -251,13 +237,10 @@ public class Ranker<T> {
             lastPageRank = pageRanks;
             pageRanks = currentPageRankMap;
         }
-        // Sort page ranks descendingly
-        pageRanks = pageRanks.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        // Sort page ranks in descending order
+        pageRanks = pageRanks.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         logger.info(pageRanks.toString());
-        if (!stop)
-            logger.finer("Iterations reached maximum");
-        return pageRanks;
+        if (!stop) logger.finer("Iterations reached maximum");
     }
 
     /**
@@ -277,15 +260,14 @@ public class Ranker<T> {
      * @param query           the query string array
      * @param query_vector    the query vector
      * @param document_vector the document vector
-     * @return
+     * @return the relevance score between the query and document
      */
     private double calculateSingleDocumentRelevance(Set<String> query, HashMap<String, Double> query_vector, HashMap<String, Double> document_vector) {
-        double document_word_score = 0d;
+        double document_word_score;
         double dot_product = 0d;
-        double magnitude = 0d;
+        double magnitude;
 
         for (String word : query) {
-            document_word_score = 0d;
             // Calculate the dot product of both query and document vectors
             // Ex. query_vector = {a:1, b:2, c:3}, document_vector = {a:4, b:2}
             // Dot product = (1 * 4) + (2 * 2) = 8
@@ -311,8 +293,8 @@ public class Ranker<T> {
     /**
      * Creates the query vector from query strings
      *
-     * @param query
-     * @return
+     * @param query the query string array
+     * @return the query vector with key as word and value as 0, all words are unique
      */
     private HashMap<String, Double> getQueryVector(String[] query) {
         HashMap<String, Double> query_vector = new HashMap<>();
@@ -326,8 +308,8 @@ public class Ranker<T> {
     /**
      * Sorts a hashmap in descending order based on the values
      *
-     * @param sortedMap
-     * @return
+     * @param sortedMap the map to be sorted
+     * @return the sorted map in descending order
      */
     private LinkedHashMap<String, Double> getSortedHashMap(LinkedHashMap<String, Double> sortedMap) {
         if (TFIDF_settings.topK > 0) {
@@ -349,20 +331,18 @@ public class Ranker<T> {
      *
      * @param query the query
      * @return the linked hash map
-     * @throws InterruptedException the interrupted exception
      */
-    private LinkedHashMap<String, Double> startRelevanceRank(String[] query) throws InterruptedException {
+    private LinkedHashMap<String, Double> startRelevanceRank(String[] query) {
         // Documents with TF-IDF scores for each word in the query (if found in the
         // document)
         // Key: URL, Value: HashMap<word, TF-IDF score> (document vector)
         HashMap<String, HashMap<String, Double>> documents_vector = new HashMap<>();
 
-        double IDF = 0d;
-        double relevance_score = 0d;
-        int TF = 0;
-        int DF = 0;
-        int element_weight = 0;
-        String URL = "";
+        double IDF;
+        int TF;
+        int DF;
+        int element_weight;
+        String URL;
 
         // Get unique words form query
         HashMap<String, Double> query_vector = getQueryVector(query);
@@ -371,19 +351,20 @@ public class Ranker<T> {
         Document[] query_documents = db_controller.getQueryInfo(query_vector.keySet().toArray(new String[0]));
 
         for (Document document : query_documents) {
+            // Get word count in query
+            int word_count_in_query = Collections.frequency(Arrays.stream(query).toList(), document.get("word", String.class));
 
             // Get IDF score for this word
             IDF = Double.parseDouble(document.get("IDF").toString());
             DF = Integer.parseInt(document.get("DF").toString());
 
-            int word_count_in_query = Collections.frequency(Arrays.stream(query).toList(), document.get("word", String.class));
-            query_vector.put(document.get("word", String.class), IDF * word_count_in_query);
+            double document_word_tfidf;
+            double query_word_tfidf = IDF * word_count_in_query;
+
+            query_vector.put(document.get("word", String.class), query_word_tfidf);
 
             // Get URL list with TF in each page
-            List<List> urls = document.get("URLS", List.class);
-            double query_word_tfidf = 0d;
-            double document_word_tfidf = 0d;
-
+            List<List> urls = document.get("URLS", ArrayList.class);
 
             // Loop over all the documents where this word was found and calculate the
             // vector for the query in this document
