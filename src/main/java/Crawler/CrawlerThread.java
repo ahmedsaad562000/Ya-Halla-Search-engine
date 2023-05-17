@@ -40,10 +40,10 @@ class CrawlerThread implements Runnable {
                         document = updated_connection.url(html_link)
                                 .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36")
                                 .referrer("http://www.google.com")
-                                .timeout(80000)
+                                .timeout(10000)
                                 .get();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         i++;
                         continue;
                     }
@@ -84,6 +84,10 @@ class CrawlerThread implements Runnable {
                     }
                     //if (check_content_type(html_link)) {
                     //System.out.println("added");
+
+
+
+
                     StaticArray.add_to_array(i, html_link);
                     //}
                 }
