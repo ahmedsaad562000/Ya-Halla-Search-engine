@@ -317,6 +317,7 @@ public class Indexer {
         col.deleteMany(new Document());
         System.out.println("Starting to Fetch to Database");
         col.insertMany(Documents);
+
     }
 }
 
