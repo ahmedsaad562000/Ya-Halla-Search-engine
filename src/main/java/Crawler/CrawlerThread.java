@@ -16,11 +16,6 @@ import java.util.Scanner;
 
 
 class CrawlerThread implements Runnable {
-    String starting_link;
-
-    public CrawlerThread(String start) {
-        starting_link = start;
-    }
 
 
     public void run()  {
@@ -28,11 +23,7 @@ class CrawlerThread implements Runnable {
         String html_link;
         Connection updated_connection;
         int i = 0;
-        try {
-            StaticArray.add_seed_to_array(starting_link);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+
 
 
         while (true) {

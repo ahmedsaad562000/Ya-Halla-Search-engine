@@ -5,7 +5,6 @@ import Logger_custom.Logger_custom;
 import org.bson.Document;
 
 import java.util.*;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 /**
@@ -145,6 +144,20 @@ public class Ranker<T> {
                     + combined_rank.toString());
 
             cacheQueryResult(query, combined_rank);
+//            /////////////////
+//            pageRanks.clear();
+//            Document[] docs = db_controller.getQueryInfo(query);
+//            ArrayList<String> pages = new ArrayList<>();
+//            for (Document doc : docs) {
+//                List<List> urls = doc.get("URLS", List.class);
+//                for (List url : urls) {
+//                    pages.add(url.get(0).toString());
+//                }
+//            }
+//            startPageRank(pages.toArray(new String[0]));
+//            pageRanks.forEach((k, v) -> logger.info(k + ": " + v + "\n"));
+//            /////////////
+
             return combined_rank;
         }
     }
@@ -388,7 +401,7 @@ public class Ranker<T> {
                 // TODO Calculate the relevance score with element score
                 // Calculate TF-IDF score for this document (URL)
                 document_word_tfidf = (TF * IDF);
-                System.out.println("Word = " + document.get("word", String.class) + " TF = " + TF + " IDF = " + IDF + " element_weight = " + element_weight + " total_word_tf_idf = " + query_word_tfidf);
+                System.out.println("Word = " + document.get("word", String.class) + " TF = " + TF + " IDF = " + IDF + " element_weight = " + element_weight + " total_word_tf_idf = " + document_word_tfidf);
 
                 // If this document does not exist in the documents vector, create it
                 if (documents_vector.get(URL) == null) {

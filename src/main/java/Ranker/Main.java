@@ -8,7 +8,7 @@ import java.util.logging.Level;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
-        String[] q = {"career","css","javascript"};
+        String[] q = {"inter","milan"};
 
         Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null);
         long start = System.currentTimeMillis();
@@ -24,7 +24,7 @@ public class Main {
 
         // Set TF-IDF algorithm settings
         Ranker.TFIDF_Settings tfidf_settings = new Ranker.TFIDF_Settings();
-        tfidf_settings.topK = 10;
+        tfidf_settings.topK = 0;
         tfidf_settings.final_weight = 0.7f;
 
         r.setTFIDFSettings(tfidf_settings);
