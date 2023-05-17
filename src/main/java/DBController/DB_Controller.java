@@ -132,7 +132,7 @@ public class DB_Controller {
      * @param query the query
      * @return the document [ ]
      */
-    public Document[] getQueryInfo(String[] query) {
+    public static Document[] getQueryInfo(String[] query) {
 
         ArrayList<Document> query_info = new ArrayList<>();
 
@@ -144,7 +144,7 @@ public class DB_Controller {
             query_info.add(document);
             i++;
         }
-        query_info.forEach(document -> logger.info(document.toJson()));
+//        query_info.forEach(document -> logger.info(document.toJson()));
         return query_info.toArray(new Document[0]);
     }
 
@@ -154,7 +154,7 @@ public class DB_Controller {
      * @param links the links
      * @return the document [ ]
      */
-    public Document[] getPageRelations(String[] links) {
+    public static Document[] getPageRelations(String[] links) {
 
         ArrayList<Document> query_info = new ArrayList<>();
 
@@ -177,7 +177,7 @@ public class DB_Controller {
      * @return the cached query result if found
      * @return null if not found
      */
-    public HashMap<String, Double> getCachedQueryResult(String[] query) {
+    public static HashMap<String, Double> getCachedQueryResult(String[] query) {
         MongoDatabase db = client.getDatabase(DATABASE_NAME);
         MongoCollection col = db.getCollection(QUERY_CACHE_COLLECTION);
         Date last_crawl_date = new Date(1647388036);
@@ -207,7 +207,7 @@ public class DB_Controller {
      * @param query          the query
      * @param relevant_pages the relevant pages
      */
-    public void cacheQueryResult(String[] query, HashMap<String, Double> relevant_pages) {
+    public static void cacheQueryResult(String[] query, HashMap<String, Double> relevant_pages) {
 //        setLastCrawlDate();
         Document cache_result = new Document().append("query", Arrays.asList(query)).append("pages", new ArrayList<>());
 

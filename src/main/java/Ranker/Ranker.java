@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 public class Ranker {
 
     private static final Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null);
-    private final DB_Controller db_controller = new DB_Controller();
     /**
      * The Page graph.
      */
@@ -79,7 +78,7 @@ public class Ranker {
      * @param relevant_pages the relevant pages to cache
      */
     private void cacheQueryResult(String[] query, HashMap<String, Double> relevant_pages) {
-        db_controller.cacheQueryResult(query, relevant_pages);
+        DB_Controller.cacheQueryResult(query, relevant_pages);
     }
 
     /**
@@ -109,7 +108,7 @@ public class Ranker {
     public HashMap<String, Double> getPageRanks(String[] query) {
 
         // Check if the query is already cached in DB
-        HashMap<String, Double> query_result = db_controller.getCachedQueryResult(query);
+        HashMap<String, Double> query_result = DB_Controller.getCachedQueryResult(query);
         if (query_result != null) {
             logger.info("Query is already cached");
             return query_result;
@@ -160,7 +159,7 @@ public class Ranker {
      */
     private void initializePageRankGraph(String[] pages) {
         pageGraph = new Graph<String>();
-        Document[] documents = db_controller.getPageRelations(pages);
+        Document[] documents = DB_Controller.getPageRelations(pages);
         for (Document document : documents) {
             pageGraph.addEdge(document.get("src_id", String.class), document.get("dest_id", String.class), false);
         }
@@ -348,7 +347,7 @@ public class Ranker {
         HashMap<String, Double> query_vector = getQueryVector(query);
 
         // Get information about the query from the database
-        Document[] query_documents = db_controller.getQueryInfo(query_vector.keySet().toArray(new String[0]));
+        Document[] query_documents = DB_Controller.getQueryInfo(query_vector.keySet().toArray(new String[0]));
 
         for (Document document : query_documents) {
             // Get word count in query
@@ -364,20 +363,20 @@ public class Ranker {
             query_vector.put(document.get("word", String.class), query_word_tfidf);
 
             // Get URL list with TF in each page
-            List<List> urls = document.get("URLS", ArrayList.class);
+            ArrayList<Document> urls = document.get("URLS", ArrayList.class);
 
             // Loop over all the documents where this word was found and calculate the
             // vector for the query in this document
-            for (List url_data : urls) {
+            for (Document url_data : urls) {
 
                 // URL of this page
-                URL = url_data.get(0).toString();
+                URL = url_data.get("URL_Name").toString();
 
                 // Term frequency in this URL
-                TF = Integer.parseInt(url_data.get(1).toString());
+                TF = url_data.get("TF", Integer.class);
 
                 // Element weight where the word was found
-                element_weight = Integer.parseInt(url_data.get(2).toString());
+                element_weight = url_data.get("Priority", Integer.class);
 
                 // TODO Calculate the relevance score with element score
                 // Calculate TF-IDF score for this document (URL)
@@ -400,8 +399,8 @@ public class Ranker {
                 }
             }
         }
-//        logger.info(query_vector.toString());
-//        logger.info(documents_vector.toString());
+        logger.info(query_vector.toString());
+        logger.info(documents_vector.toString());
 
         // Calculate relevance score for each page
         Set<String> querySet = new HashSet<>(Arrays.asList(query));
@@ -516,5 +515,6 @@ public class Ranker {
          */
         public double final_weight;
     }
+
 
 }

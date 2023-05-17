@@ -148,6 +148,7 @@ public class Indexer {
             URLS_DOC = document.URLS;
             URLDocument URL = new URLDocument();
             Document documentEntry = new Document();
+            List<Document> All_URL_Documents = new ArrayList<>();
             // Check if document has null values
             if (document.URLS == null ||
                     document.URLS.size() == 0 ||
@@ -162,6 +163,7 @@ public class Indexer {
             documentEntry.put("IDF", document.IDF);
             List<List<String>> URLS = new ArrayList<>();
             for (URLDocument urlDocument : URLS_DOC) {
+                Document URL_Document = new Document();
                 if (urlDocument.URL_name == null ||
                         urlDocument.Priority == null ||
                         urlDocument.WordPosition == null ||
@@ -169,21 +171,15 @@ public class Indexer {
                         urlDocument.TermFrequency == 0) {
                     continue;
                 }
-                String urlName = urlDocument.URL_name;
-                String termFrequency = Integer.toString(urlDocument.TermFrequency);
-                Integer Priority = urlDocument.Priority;
-                // Added //
                 List<Integer> WordPositions = urlDocument.WordPosition;
-                String firstParagraph = urlDocument.firstParagraph;
-                List<String> urlDetails = new ArrayList<>();
-                urlDetails.add(urlName);
-                urlDetails.add(termFrequency);
-                urlDetails.add(String.valueOf(Priority));
-                urlDetails.add(WordPositions.toString());
-                urlDetails.add(firstParagraph);
-                URLS.add(urlDetails);
+                URL_Document.put("URL_Name", urlDocument.URL_name);
+                URL_Document.put("TF", urlDocument.TermFrequency);
+                URL_Document.put("Priority", urlDocument.Priority);
+                URL_Document.put("Positions", urlDocument.WordPosition);
+                URL_Document.put("FirstOccurrence", urlDocument.firstParagraph);
+                All_URL_Documents.add(URL_Document);
             }
-            documentEntry.put("URLS", URLS);
+            documentEntry.put("URLS", All_URL_Documents);
             Documents.add(documentEntry);
         }
     }
@@ -218,64 +214,74 @@ public class Indexer {
         /* Create a Buffer reader to read URL Links */
         BufferedReader fileReader = new BufferedReader(new FileReader("seedsets.txt"));
         String fileName = null;
-        ExecutorService executor = Executors.newFixedThreadPool(16);
+        ExecutorService executor = Executors.newFixedThreadPool(12);
         Future<?>[] futures = new Future[LinksOfCrawler.size()];
         int i = 0;
         for (String link : LinksOfCrawler) {
             int index = i;
-            futures[i++] = executor.submit(() -> {
-                try {
-                    System.out.println("Thread " + Thread.currentThread().getName());
-                    System.out.println("HashMap Size : " + DB.size() + " Link#" + index);
-                    org.jsoup.nodes.Document doc = Jsoup.connect(link).userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").referrer("http://www.google.com").timeout(30000).ignoreHttpErrors(true).get();
+            try {
+                futures[i++] = executor.submit(() -> {
+                    try {
+                        System.out.println("Thread " + Thread.currentThread().getName());
+                        System.out.println("HashMap Size : " + DB.size() + " Link#" + index);
+                        org.jsoup.nodes.Document doc = Jsoup.connect(link).userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").referrer("http://www.google.com").timeout(30000).ignoreHttpErrors(true).get();
 
-                    /* This array will contain only HTML text with Elements without Child */
-                    ArrayList<Element> ElementsWithoutChild = new ArrayList<Element>();
-                    List<String> Words = new ArrayList<>();
-                    HashMap<String, Integer> WordPriority = new HashMap<>();
-                    HashMap<String, String> firstOccurrenceOfWord = new HashMap<>();
+                        /* This array will contain only HTML text with Elements without Child */
+                        ArrayList<Element> ElementsWithoutChild = new ArrayList<Element>();
+                        List<String> Words = new ArrayList<>();
+                        HashMap<String, Integer> WordPriority = new HashMap<>();
+                        HashMap<String, String> firstOccurrenceOfWord = new HashMap<>();
 //                            List<Document> Documents = new ArrayList<>();
 
-                    /* Select all HTML Tags from downloaded Document*/
-                    Elements elements = doc.select("*");
-                    /* This loop check if Element has child ignore it --> it only Focus on Elements without child */
-                    for (Element elements1 : elements) {
-                        if (elements1.children().isEmpty()) ElementsWithoutChild.add(elements1);
-                    }
+                        /* Select all HTML Tags from downloaded Document*/
+                        Elements elements = doc.select("*");
+                        /* This loop check if Element has child ignore it --> it only Focus on Elements without child */
+                        for (Element elements1 : elements) {
+                            String tagName = elements1.tagName();
+                            if (tagName.equals("h1") || tagName.equals("h2") || tagName.equals("h3") || tagName.equals("h4")
+                                    || tagName.equals("h5") || tagName.equals("h6") || tagName.equals("p")
+                                    || tagName.equals("span") || tagName.equals("title") || tagName.equals("li")
+                                    || tagName.equals("td") || tagName.equals("th"))
+                                ElementsWithoutChild.add(elements1);
+                        }
 
-                    /* List which will contains all words without any duplication */
-                    for (Element element : ElementsWithoutChild) {//
-                        Integer Priority = getPriorityOfWord(element.tagName());//
-                        String tempStr = element.text();//
-                        List<String> tempList = splitWords(tempStr);//
-                        // Added NOW //
-                        InsertFirstOccurrenceOfString(tempStr, tempList, firstOccurrenceOfWord);//
-                        for (String str : tempList) {
-                            String LowerCaseWord = str.toLowerCase();//
-                            if (!StopWords.contains(LowerCaseWord)) {
-                                String stemmingWord = stemmingOnlyWord(LowerCaseWord);//
-                                if (!WordPriority.containsKey(stemmingWord)) {
-                                    WordPriority.put(stemmingWord, Priority);//
-                                } else {
-                                    Integer P = WordPriority.get(stemmingWord);
-                                    if (P > Priority) {
-                                        Priority = P;
-                                        WordPriority.put(stemmingWord, Priority);
+                        /* List which will contains all words without any duplication */
+                        for (Element element : ElementsWithoutChild) {//
+                            Integer Priority = getPriorityOfWord(element.tagName());//
+                            String tempStr = element.text();//
+                            List<String> tempList = splitWords(tempStr);//
+                            // Added NOW //
+                            InsertFirstOccurrenceOfString(tempStr, tempList, firstOccurrenceOfWord);//
+                            for (String str : tempList) {
+                                String LowerCaseWord = str.toLowerCase();//
+                                if (!StopWords.contains(LowerCaseWord)) {
+                                    String stemmingWord = stemmingOnlyWord(LowerCaseWord);//
+                                    if (!WordPriority.containsKey(stemmingWord)) {
+                                        WordPriority.put(stemmingWord, Priority);//
+                                    } else {
+                                        Integer P = WordPriority.get(stemmingWord);
+                                        if (P > Priority) {
+                                            Priority = P;
+                                            WordPriority.put(stemmingWord, Priority);
+                                        }
                                     }
                                 }
+                                Words.add(str.toLowerCase());
                             }
-                            Words.add(str.toLowerCase());
                         }
-                    }
-                    RemoveStopWordsFromList(Words);
-                    WordStemming(Words);
-                    InsertIntoHashMap(link, WordPriority, Words, firstOccurrenceOfWord);
+                        RemoveStopWordsFromList(Words);
+                        WordStemming(Words);
+                        InsertIntoHashMap(link, WordPriority, Words, firstOccurrenceOfWord);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Thread " + Thread.currentThread().getName() + " Finished");
-            });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Thread " + Thread.currentThread().getName() + " Finished");
+                });
+            } catch (Exception e) {
+                System.out.println("Thread exception");
+                e.printStackTrace();
+            }
         }
         System.out.println("Main loop finished");
         executor.shutdown();
@@ -287,7 +293,6 @@ public class Indexer {
         System.out.println("Finished converting map to document");
         col.drop();
         System.out.println("Starting to Fetch to Database");
-
         col.insertMany(Documents.stream().toList());
 
         executor.shutdown();

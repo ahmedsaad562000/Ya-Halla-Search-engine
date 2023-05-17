@@ -8,3 +8,5 @@ public class WordDocuement
     double IDF;
     List<URLDocument> URLS = new ArrayList<>();
 }
+
+

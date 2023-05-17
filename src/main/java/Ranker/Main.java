@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) {
 
-        String[] q = {"inter", "milan"};
+        String[] q = {"stumbl", "reman","world"};
 
         Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null);
         long start = System.currentTimeMillis();
@@ -25,6 +25,7 @@ public class Main {
         Ranker.TFIDF_Settings tfidf_settings = new Ranker.TFIDF_Settings();
         tfidf_settings.topK = 0;
         tfidf_settings.final_weight = 0.7f;
+
 
         r.setTFIDFSettings(tfidf_settings);
         r.setPageRankSettings(settings);
