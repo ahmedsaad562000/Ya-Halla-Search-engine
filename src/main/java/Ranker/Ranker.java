@@ -246,11 +246,13 @@ public class Ranker {
      * Starts the page rank algorithm.
      *
      * @param pages the pages
+     * @return
      */
-    public void startPageRank(String[] pages) {
+    public Map<String, Double> startPageRank(String[] pages) {
         initializePageRankGraph(pages);
         initializePageRank();
         calculatePageRank();
+        return pageRanks;
     }
 
     /**

@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="540df1e2-074a-4496-9be9-4e73b21510b3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/PhraseSearcher/PhraseSearcher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/DBController/DB_Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DBController/DB_Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Indexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Indexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Ranker/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ranker/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PhraseSearcher/PhraseSearcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PhraseSearcher/PhraseSearcher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Ranker/Ranker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ranker/Ranker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/WordDocuement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WordDocuement.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,30 +37,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "true",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/APT/Project/lib/snowball-stemmer-1.3.0.581.1.jar",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.3321839",
-    "settings.editor.selected.configurable": "template.copyright.formatting",
-    "spring.configuration.checksum": "ef221de801e84c7479e7b6e28c6db005",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/APT/Project/lib/snowball-stemmer-1.3.0.581.1.jar&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.3321839&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;template.copyright.formatting&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;ef221de801e84c7479e7b6e28c6db005&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -96,6 +93,7 @@
     <configuration name="MainCrawler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Crawler.MainCrawler" />
       <module name="Search-engine-Project" />
+      <option name="PROGRAM_PARAMETERS" value="6000 16" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -113,12 +111,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Indexer" />
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.MainCrawler" />
+      <item itemvalue="Application.PhraseSearcher" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Indexer" />
+        <item itemvalue="Application.MainCrawler" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.PhraseSearcher" />
-        <item itemvalue="Application.MainCrawler" />
       </list>
     </recent_temporary>
   </component>
@@ -143,7 +147,8 @@
       <workItem from="1684278523651" duration="1399000" />
       <workItem from="1684323792471" duration="767000" />
       <workItem from="1684328318736" duration="3272000" />
-      <workItem from="1684331630340" duration="22966000" />
+      <workItem from="1684331630340" duration="24611000" />
+      <workItem from="1684357284472" duration="9322000" />
     </task>
     <task id="LOCAL-00001" summary="Add Files">
       <created>1682546577429</created>
@@ -250,7 +255,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684331309429</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="-Removed ranker warnings&#10;-Removed DBcontroller warnings&#10;-Phrase searching&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <created>1684355251763</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1684355251763</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,7 +292,8 @@
     <MESSAGE value="Added ranker &amp; logger&#10;Updated DBcontroller" />
     <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;Added threading to indexer&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
     <MESSAGE value="-Removed ranker warnings&#10;-Removed DBcontroller warnings&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Removed ranker warnings&#10;-Removed DBcontroller warnings&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
+    <MESSAGE value="-Removed ranker warnings&#10;-Removed DBcontroller warnings&#10;-Phrase searching&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Removed ranker warnings&#10;-Removed DBcontroller warnings&#10;-Phrase searching&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -293,7 +306,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Ranker/Ranker.java</url>
-          <line>283</line>
+          <line>285</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
