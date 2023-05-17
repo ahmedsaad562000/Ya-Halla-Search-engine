@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="11ca6c57-2e7d-4dcf-a075-6705977102f3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/maven_wrapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HELP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Backend/Application.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Backend/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Crawler/CrawlerThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Crawler/CrawlerThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Crawler/MainCrawler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Crawler/MainCrawler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Crawler/NormalizeURL.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Crawler/NormalizeURL.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Crawler/StaticArray.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Crawler/StaticArray.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/DBController/DB_Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/DBController/DB_Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Indexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Indexer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Logger_custom/Logger_custom$LoggingFormatter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Logger_custom/Logger_custom$LoggingFormatter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Logger_custom/Logger_custom.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Logger_custom/Logger_custom.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Ranker/Graph.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Ranker/Graph.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Ranker/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Ranker/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Ranker/Ranker$ElementWeight.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Ranker/Ranker$ElementWeight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Ranker/Ranker$PageRank_Settings.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Ranker/Ranker$PageRank_Settings.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Ranker/Ranker$TFIDF_Settings.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Ranker/Ranker$TFIDF_Settings.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Ranker/Ranker.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Ranker/Ranker.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/APT/Project/.mvn/wrapper/maven-wrapper.jar",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.18066746",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\APT\Project" />
+      <recent name="D:\APT\Project\src\main\java\Backend" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MainCrawler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Crawler.MainCrawler" />
+      <module name="Search-engine-Project" />
+      <option name="PROGRAM_PARAMETERS" value="6000 16" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Crawler.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MainCrawler" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>
