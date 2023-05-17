@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11ca6c57-2e7d-4dcf-a075-6705977102f3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_16_2023_10_43_PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seed.txt" beforeDir="false" afterPath="$PROJECT_DIR$/seed.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/CrawlerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/CrawlerThread.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

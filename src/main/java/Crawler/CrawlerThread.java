@@ -57,11 +57,11 @@ class CrawlerThread implements Runnable {
                 HashSet<String> asd = getRobotText(html_link);
                 for (Element link : links) {
                     html_link = link.attr("href");
-                    Connection.Response res = Jsoup.connect("http://www.google.com/").timeout(10*1000).execute();
+                    Connection.Response res = Jsoup.connect(html_link).timeout(10*1000).execute();
 
 
 
-                    if (asd.contains(html_link) || !res.contentType().contains("text/html")) {
+                    if (asd.contains(html_link) ||(res.statusCode()!=200) ||!res.contentType().contains("text/html")) {
                        // System.out.println("found dup");
                         continue;
                     }
