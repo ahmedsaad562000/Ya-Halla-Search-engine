@@ -1,5 +1,6 @@
 import com.mongodb.client.*;
 import org.bson.Document;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -221,13 +223,20 @@ public class Indexer {
         ExecutorService executor = Executors.newFixedThreadPool(16);
         Future<?>[] futures = new Future[LinksOfCrawler.size()];
         int i = 0;
+
         for (String link : LinksOfCrawler) {
+            AtomicReference<Connection> updated_connection = new AtomicReference<>();
             int index = i;
             futures[i++] = executor.submit(() -> {
                 try {
                     System.out.println("Thread " + Thread.currentThread().getName());
                     System.out.println("HashMap Size : " + DB.size() + " Link#" + index);
-                    org.jsoup.nodes.Document doc = Jsoup.connect(link).userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").referrer("http://www.google.com").timeout(30000).ignoreHttpErrors(true).get();
+                    updated_connection.set(Jsoup.newSession());
+                    org.jsoup.nodes.Document doc = updated_connection.get().url(link)
+                            .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36")
+                            .referrer("http://www.google.com")
+                            .timeout(10000)
+                            .get();
 
                     /* This array will contain only HTML text with Elements without Child */
                     ArrayList<Element> ElementsWithoutChild = new ArrayList<Element>();
@@ -272,7 +281,8 @@ public class Indexer {
                     InsertIntoHashMap(link, WordPriority, Words, firstOccurrenceOfWord);
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
+
                 }
                 System.out.println("Thread " + Thread.currentThread().getName() + " Finished");
             });

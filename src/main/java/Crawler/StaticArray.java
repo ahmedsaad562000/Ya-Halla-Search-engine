@@ -1,5 +1,9 @@
 package Crawler;
 import DBController.DB_Controller;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.net.MalformedURLException;
 
@@ -14,7 +18,7 @@ public class StaticArray {
     {
 
         String srcLink = "";
-        if (Link.startsWith("http") && !Link.startsWith("https://auth") && !Link.startsWith("https://www.linkedin") && !Link.matches(pdfregex)) {
+        if (Link.startsWith("http") && !Link.startsWith("https://auth") &&  !Link.startsWith("https://www.linkedin") && !Link.matches(pdfregex)) {
             try {
                 Link = NormalizeURL.normalize(Link);
             }
@@ -22,6 +26,16 @@ public class StaticArray {
                 System.out.println("not accessible");
                 return;
             }
+
+
+
+
+
+
+
+
+
+
             Link = NormalizeURL.linkCleaner(Link);
             /*if (!Crawler.NormalizeURL.isAccessable(Link , 60000 )) {
                 System.out.println("not accessible");

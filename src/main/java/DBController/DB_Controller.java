@@ -125,6 +125,30 @@ public class DB_Controller {
     return false;
     }
 
+   public static String getFirstOcuurenceString(String Word , String Link) {
+        Bson getFirstOcureence = Filters.in("word", Word);
+
+        FindIterable<Document> It = db.getCollection("WordDocuments").find(getFirstOcureence);
+        HashMap<String , Object> Temp2 = null;
+        Object Temp = null;
+        List<Object> Temp3 = new ArrayList<>();
+        for (Document document : It) {
+            Temp = document.get("URLS");
+            if (Temp != null) {
+                Temp3 = (List<Object>) Temp;
+                for (Object object : Temp3) {
+                    Temp2 = (HashMap<String, Object>) object;
+                    if (Temp2.get("URL_Name").equals(Link)) {
+                        return Temp2.get("FirstOccurrence").toString();
+                    }
+                }
+
+            }
+        }
+
+        return "";
+    }
+
 
     /**
      * Get query info document [ ].
@@ -229,5 +253,7 @@ public class DB_Controller {
         if (col.find(Filters.eq("query", Arrays.asList(query))).first() == null) col.insertOne(cache_result);
         else col.replaceOne(Filters.eq("query", Arrays.asList(query)), cache_result);
     }
+
+
 
 }
