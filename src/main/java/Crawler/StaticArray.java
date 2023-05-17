@@ -10,12 +10,18 @@ public class StaticArray {
     static String pdfregex = "^(https?|ftp)://.*(\\.pdf)$";
     static int Limit = 6000;
 
-    public synchronized static void add_to_array( int srcid , String Link) throws MalformedURLException
+    public synchronized static void add_to_array( int srcid , String Link)
     {
 
         String srcLink = "";
-        if (Link.startsWith("http") && !Link.matches(pdfregex)) {
-            Link = NormalizeURL.normalize(Link);
+        if (Link.startsWith("http") && !Link.startsWith("https://auth") && !Link.startsWith("https://www.linkedin") && !Link.matches(pdfregex)) {
+            try {
+                Link = NormalizeURL.normalize(Link);
+            }
+            catch (MalformedURLException e) {
+                System.out.println("not accessible");
+                return;
+            }
             Link = NormalizeURL.linkCleaner(Link);
             /*if (!Crawler.NormalizeURL.isAccessable(Link , 60000 )) {
                 System.out.println("not accessible");
@@ -36,9 +42,15 @@ public class StaticArray {
 
     public synchronized static void add_seed_to_array(String Link) throws MalformedURLException
     {
-        if (Link.startsWith("https") && !Link.matches(pdfregex)) {
+        if (Link.startsWith("https") && !Link.startsWith("https://auth") && !Link.startsWith("https://www.linkedin") && !Link.matches(pdfregex)) {
 
-            Link = NormalizeURL.normalize(Link);
+            try {
+                Link = NormalizeURL.normalize(Link);
+            }
+            catch (MalformedURLException e) {
+                System.out.println("not accessible");
+                return;
+            }
             Link = NormalizeURL.linkCleaner(Link);
             DB_Controller.UploadDocument(Link);
         }
