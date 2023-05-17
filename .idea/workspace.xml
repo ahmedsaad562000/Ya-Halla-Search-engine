@@ -6,7 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="11ca6c57-2e7d-4dcf-a075-6705977102f3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seed.txt" beforeDir="false" afterPath="$PROJECT_DIR$/seed.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/CrawlerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/CrawlerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/MainCrawler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/MainCrawler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/NormalizeURL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/NormalizeURL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/StaticArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/StaticArray.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DBController/DB_Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DBController/DB_Controller.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +46,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.18066746",
+    "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>

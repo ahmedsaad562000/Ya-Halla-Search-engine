@@ -116,6 +116,16 @@ public class DB_Controller {
         db.getCollection(collection_name).drop();
     }
 
+    public static boolean CrawlerCollectionExists() {
+        for (String ASD : db.listCollectionNames()) {
+            if (ASD.equals(CRAWLER_LINKS_COLLECTION)) {
+                return true;
+            }
+        }
+    return false;
+    }
+
+
     /**
      * Get query info document [ ].
      *

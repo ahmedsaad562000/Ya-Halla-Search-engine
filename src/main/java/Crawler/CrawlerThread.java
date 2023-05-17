@@ -3,10 +3,12 @@ package Crawler;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,16 +31,22 @@ class CrawlerThread implements Runnable {
         while (true) {
             updated_connection = Jsoup.newSession();
 
-            try {
+
 
 
                 if (StaticArray.checkindex(i)) {
                     html_link = StaticArray.getByindex(i);
-                    document = updated_connection.url(html_link)
-                            .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
-                            .referrer("http://www.google.com")
-                            .timeout(80000)
-                            .ignoreHttpErrors(true).get();
+                    try {
+                        document = updated_connection.url(html_link)
+                                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36")
+                                .referrer("http://www.google.com")
+                                .timeout(80000)
+                                .get();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        i++;
+                        continue;
+                    }
 
                 } else {
                     i++;
@@ -57,12 +65,21 @@ class CrawlerThread implements Runnable {
                 HashSet<String> asd = getRobotText(html_link);
                 for (Element link : links) {
                     html_link = link.attr("href");
+                  /*  System.out.println("----------------------------------------start-------------------------------------");
                     Connection.Response res = Jsoup.connect(html_link).timeout(10*1000).execute();
+                    System.out.println("-----------------------------------------end------------------------------------");
+                    */
+                   /* try {
+                        res.parse();
+                    } catch (UnsupportedMimeTypeException un_e) {
+                        System.out.println("Parse error");
+                        continue;
+                    }*/
 
 
-
-                    if (asd.contains(html_link) ||(res.statusCode()!=200) ||!res.contentType().contains("text/html")) {
-                       // System.out.println("found dup");
+                    /*if (asd.contains(html_link) ||(res.statusCode()!=200) ||!res.contentType().contains("text/html")) {*/
+                    if (asd.contains(html_link)) {
+                        //System.out.println("not added");
                         continue;
                     }
                     //if (check_content_type(html_link)) {
@@ -77,10 +94,6 @@ class CrawlerThread implements Runnable {
                     break;
                 }
                 i++;
-
-            } catch (Exception e) {
-                continue;
-            }
 
 
         }

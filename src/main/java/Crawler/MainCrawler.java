@@ -24,9 +24,8 @@ public class MainCrawler {
 
         System.out.println(no_of_threads);
         Thread[] CrawlerThreadList = new Thread[Integer.parseInt(args[1])];
-
+        DB_Controller.UpdateCrawlerLinksTrigger();
         if (StaticArray.check_Limit()) {
-            DB_Controller.UpdateCrawlerLinksTrigger();
             DB_Controller.DropCollection("crawler_links");
             DB_Controller.DropCollection("crawler_relations");
 
@@ -38,9 +37,16 @@ public class MainCrawler {
                 }
             }
         }
-        else
+        else if (!DB_Controller.CrawlerCollectionExists())
         {
-            DB_Controller.UpdateCrawlerLinksTrigger();
+            for (String startingLink : StartingLinks) {
+                try {
+                    System.out.println("ana hna");
+                    StaticArray.add_seed_to_array(startingLink);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
 

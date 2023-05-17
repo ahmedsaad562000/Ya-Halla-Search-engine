@@ -169,6 +169,8 @@ public class NormalizeURL
         //remove hashing
         int hashIndex = link.indexOf("#");
         int queryIndex = link.indexOf("?"); //indexOf returns -1 if it didn't find the specific char/string
+        link = link.replace(" ", "");
+
 
         //removing # in links if found
         if (hashIndex != -1) {
