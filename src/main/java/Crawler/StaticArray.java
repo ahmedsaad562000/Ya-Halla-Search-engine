@@ -1,46 +1,63 @@
 package Crawler;
-
 import DBController.DB_Controller;
 
 import java.net.MalformedURLException;
 
 public class StaticArray {
 
-   /* static ArrayList<String> hash_Set = new ArrayList<String>();
-    static ArrayList<Boolean> bool_hash_set = new ArrayList<Boolean>();*/
+    /* static ArrayList<String> hash_Set = new ArrayList<String>();
+     static ArrayList<Boolean> bool_hash_set = new ArrayList<Boolean>();*/
     static String pdfregex = "^(https?|ftp)://.*(\\.pdf)$";
     static int Limit = 6000;
 
-    public synchronized static void add_to_array( int srcid , String Link) throws MalformedURLException
+    public synchronized static void add_to_array( int srcid , String Link)
     {
-        long destid = 0;
-        if (Link.startsWith("http") && !Link.matches(pdfregex)) {
-            Link = NormalizeURL.normalize(Link);
+
+        String srcLink = "";
+        if (Link.startsWith("http") && !Link.startsWith("https://auth") && !Link.startsWith("https://www.linkedin") && !Link.matches(pdfregex)) {
+            try {
+                Link = NormalizeURL.normalize(Link);
+            }
+            catch (MalformedURLException e) {
+                System.out.println("not accessible");
+                return;
+            }
             Link = NormalizeURL.linkCleaner(Link);
             /*if (!Crawler.NormalizeURL.isAccessable(Link , 60000 )) {
                 System.out.println("not accessible");
                 return;
             }*/
             if (DB_Controller.is_present(Link)) {
-            //Nothing
+                //Nothing
 
             }
             else
             {
-                destid = DB_Controller.UploadDocument(Link);
-                DB_Controller.UploadCrawlerRelation(srcid , (int)destid);
+                srcLink = DB_Controller.GetDoc(srcid);
+                DB_Controller.UploadDocument(Link);
+                DB_Controller.UploadCrawlerRelation(srcLink , Link);
             }
         }
     }
 
     public synchronized static void add_seed_to_array(String Link) throws MalformedURLException
     {
-        if (Link.startsWith("https") && !Link.matches(pdfregex)) {
+        if (Link.startsWith("https") && !Link.startsWith("https://auth") && !Link.startsWith("https://www.linkedin") && !Link.matches(pdfregex)) {
 
-            Link = NormalizeURL.normalize(Link);
+            try {
+                Link = NormalizeURL.normalize(Link);
+            }
+            catch (MalformedURLException e) {
+                System.out.println("not accessible");
+                return;
+            }
             Link = NormalizeURL.linkCleaner(Link);
             DB_Controller.UploadDocument(Link);
         }
+    }
+
+    public static void setLimit(int limit) {
+        Limit = limit;
     }
 
     public static boolean check_Limit()
