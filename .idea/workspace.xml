@@ -5,19 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="540df1e2-074a-4496-9be9-4e73b21510b3" name="Changes" comment="Merge remote-tracking branch 'origin/main'&#10;Added threading to indexer&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
-      <change afterPath="$PROJECT_DIR$/backup/QueryCache.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backup/db_collections/WordDocuments.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/CrawlerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/CrawlerThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/MainCrawler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/MainCrawler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/StaticArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/StaticArray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Indexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Indexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Ranker/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ranker/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Ranker/Ranker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ranker/Ranker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Crawler/CrawlerThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Crawler/CrawlerThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Crawler/MainCrawler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Crawler/MainCrawler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Crawler/StaticArray.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Crawler/StaticArray.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/DBController/DB_Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/DBController/DB_Controller.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Indexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Indexer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Logger_custom/Logger_custom$LoggingFormatter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Logger_custom/Logger_custom$LoggingFormatter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Logger_custom/Logger_custom.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Logger_custom/Logger_custom.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Ranker/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Ranker/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Ranker/Ranker$ElementWeight.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Ranker/Ranker$ElementWeight.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Ranker/Ranker$PageRank_Settings.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Ranker/Ranker$PageRank_Settings.class" afterDir="false" />
@@ -72,6 +67,7 @@
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.3321839&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;ef221de801e84c7479e7b6e28c6db005&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -83,7 +79,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Indexer">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Indexer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Indexer" />
       <module name="Search-engine-Project" />
@@ -113,8 +109,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Indexer" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Indexer" />
         <item itemvalue="Application.MainCrawler" />
       </list>
     </recent_temporary>
@@ -138,6 +134,8 @@
       <workItem from="1683057142462" duration="328000" />
       <workItem from="1684263374515" duration="6006000" />
       <workItem from="1684278523651" duration="1399000" />
+      <workItem from="1684323792471" duration="767000" />
+      <workItem from="1684328318736" duration="44000" />
     </task>
     <task id="LOCAL-00001" summary="Add Files">
       <created>1682546577429</created>
@@ -258,7 +256,8 @@
     <MESSAGE value="these two classes added to check all features with MongoDB before start coding" />
     <MESSAGE value="extra imports" />
     <MESSAGE value="Added ranker &amp; logger&#10;Updated DBcontroller" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added ranker &amp; logger&#10;Updated DBcontroller" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;Added threading to indexer&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/main'&#10;Added threading to indexer&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
