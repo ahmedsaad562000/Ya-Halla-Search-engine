@@ -14,7 +14,7 @@ public class Graph<T> {
     }
 
     public void addVertex(T v) {
-        adjList.put(v, new LinkedList<T>());
+        adjList.put(v, new LinkedList<>());
     }
 
     public void addEdge(T src, T dest, boolean bidir) {
@@ -61,9 +61,9 @@ public class Graph<T> {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (T vertex : adjList.keySet()) {
-            stringBuilder.append(vertex.toString() + ": [ ");
+            stringBuilder.append(vertex.toString()).append(": [ ");
             for (T edge : adjList.get(vertex))
-                stringBuilder.append(edge.toString()+" ");
+                stringBuilder.append(edge.toString()).append(" ");
             stringBuilder.append("]\n");
         }
         return stringBuilder.toString();

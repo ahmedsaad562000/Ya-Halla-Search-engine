@@ -1,6 +1,5 @@
 package Crawler;
 import DBController.DB_Controller;
-import com.mongodb.DB;
 
 import java.io.File;
 import java.io.FileNotFoundException;
