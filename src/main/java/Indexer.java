@@ -160,30 +160,36 @@ public class Indexer {
     {
         for(Map.Entry<String, WordDocuement> entry: DB.entrySet())
         {
-            String key = entry.getKey();
             WordDocuement document = entry.getValue();
             List<URLDocument> URLS_DOC = new ArrayList<>();
             URLS_DOC = document.URLS;
-            URLDocument URL = new URLDocument();
             Document documentEntry = new Document();
             documentEntry.put("word" , document.Word);
             documentEntry.put("DF" , document.DocumentFrequency);
             documentEntry.put("IDF" , document.IDF);
-            List<List<String>> URLS = new ArrayList<>();
+
+            List<Document> All_URL_Documents = new ArrayList<>();
             for(URLDocument urlDocument : URLS_DOC)
             {
-                String urlName = urlDocument.URL_name;
-                String termFrequency = Integer.toString(urlDocument.TermFrequency);
-                Integer Priority = urlDocument.Priority;
-                // Added //
+                Document URL_Document = new Document();
+//                String urlName = urlDocument.URL_name;
+//                String termFrequency = Integer.toString(urlDocument.TermFrequency);
+//                Integer Priority = urlDocument.Priority;
+//                // Added //
                 List<Integer> WordPositions = urlDocument.WordPosition;
-                String firstParagraph = urlDocument.firstParagraph;
-                List<String> urlDetails = new ArrayList<>();
-                urlDetails.add(urlName); urlDetails.add(termFrequency); urlDetails.add(String.valueOf(Priority));
-                urlDetails.add(WordPositions.toString()); urlDetails.add(firstParagraph);
-                URLS.add(urlDetails);
+//                String firstParagraph = urlDocument.firstParagraph;
+//                List<String> urlDetails = new ArrayList<>();
+//                urlDetails.add(urlName); urlDetails.add(termFrequency); urlDetails.add(String.valueOf(Priority));
+//                urlDetails.add(WordPositions.toString()); urlDetails.add(firstParagraph);
+//                URLS.add(urlDetails);
+                URL_Document.put("URL_Name" , urlDocument.URL_name);
+                URL_Document.put("TF" , urlDocument.TermFrequency);
+                URL_Document.put("Priority" , urlDocument.Priority);
+                URL_Document.put("Positions" , urlDocument.WordPosition);
+                URL_Document.put("FirstOccurrence" , urlDocument.firstParagraph);
+                All_URL_Documents.add(URL_Document);
             }
-            documentEntry.put("URLS" , URLS);
+            documentEntry.put("URLS" , All_URL_Documents);
             Documents.add(documentEntry);
         }
     }
@@ -199,6 +205,7 @@ public class Indexer {
             }
         }
     }
+
     /********************************************************************/
     public static void main(String[] args) throws IOException {
         MongoClient client = MongoClients.create("mongodb://localhost:27017");
@@ -218,9 +225,7 @@ public class Indexer {
         }
         ReadStopWords();
 
-        /* Create a Buffer reader to read URL Links */
-        BufferedReader fileReader = new BufferedReader(new FileReader("seedsets.txt"));
-        String fileName = null;
+        int currentLink = 0;
         for(String link : LinksOfCrawler)
         {
             try {
@@ -228,11 +233,12 @@ public class Indexer {
                 /* This array will contain only HTML text with Elements without Child */
                 ElementsWithoutChild = new ArrayList<Element>();
                 /* Select all HTML Tags from downloaded Document*/
-                Elements elements = doc.select("*");
+                Elements elements = doc.getAllElements();
                 /* This loop check if Element has child ignore it --> it only Focus on Elements without child */
                 for(Element elements1 : elements)
                 {
-                    if(elements1.children().isEmpty())
+                    String tagName = elements1.tagName();
+                    if(tagName.equals("h1") || tagName.equals("h2") || tagName.equals("h3") || tagName.equals("h4") || tagName.equals("h5") || tagName.equals("h6") || tagName.equals("p") || tagName.equals("span") || tagName.equals("title") || tagName.equals("li") || tagName.equals("td") || tagName.equals("th"))
                         ElementsWithoutChild.add(elements1);
                 }
                 /* List which will contains all words without any duplication */
@@ -240,6 +246,7 @@ public class Indexer {
                 {
                     Integer Priority = getPriorityOfWord(element.tagName());
                     String tempStr = element.text();
+
                     List<String> tempList = splitWords(tempStr);
                     // Added NOW //
                     InsertFirstOccurrenceOfString(tempStr , tempList);
@@ -269,30 +276,30 @@ public class Indexer {
                 RemoveStopWordsFromList();
                 WordStemming();
                 InsertIntoHashMap(link);
-                convertHashMapToDocument();
-                for(Document document : Documents)
-                {
-                    String wordName = document.get("word").toString();
-                    int DocumentFrequency = (int) document.get("DF");
-                    double IDF = (double) document.get("IDF");
-                    List<List<String>> URLS_Details = (List<List<String>>) document.get("URLS");
-                    Bson FilterQuery = Filters.eq("word" , wordName);
-                    long count = col.countDocuments(FilterQuery);
-                    boolean found = count > 0;
-                    if(found) {
-                        Bson filter = Filters.eq("word" , wordName);
-                        Bson updateOperation = Updates.combine(
-                                Updates.set("DF" , DocumentFrequency) ,
-                                Updates.set("IDF" , IDF) ,
-                                Updates.set("URLS" , URLS_Details)
-                        );
-                        col.updateOne(filter , updateOperation);
-                    }
-                    else
-                    {
-                        col.insertOne(document);
-                    }
-                }
+//                convertHashMapToDocument();
+//                for(Document document : Documents)
+//                {
+//                    String wordName = document.get("word").toString();
+//                    int DocumentFrequency = (int) document.get("DF");
+//                    double IDF = (double) document.get("IDF");
+//                    List<List<String>> URLS_Details = (List<List<String>>) document.get("URLS");
+//                    Bson FilterQuery = Filters.eq("word" , wordName);
+//                    long count = col.countDocuments(FilterQuery);
+//                    boolean found = count > 0;
+//                    if(found) {
+//                        Bson filter = Filters.eq("word" , wordName);
+//                        Bson updateOperation = Updates.combine(
+//                                Updates.set("DF" , DocumentFrequency) ,
+//                                Updates.set("IDF" , IDF) ,
+//                                Updates.set("URLS" , URLS_Details)
+//                        );
+//                        col.updateOne(filter , updateOperation);
+//                    }
+//                    else
+//                    {
+//                        col.insertOne(document);
+//                    }
+//                }
             }
             catch (IOException e)
             {
@@ -300,10 +307,16 @@ public class Indexer {
             }
             Words.clear();
             ElementsWithoutChild.clear();
-            Documents.clear();
+//            Documents.clear();
             WordPriority.clear();
             firstOccurrenceOfWord.clear();
+            System.out.println("Link " + currentLink + " is Finished");
+            ++currentLink;
         }
+        convertHashMapToDocument();
+        col.deleteMany(new Document());
+        System.out.println("Starting to Fetch to Database");
+        col.insertMany(Documents);
     }
 }
 
