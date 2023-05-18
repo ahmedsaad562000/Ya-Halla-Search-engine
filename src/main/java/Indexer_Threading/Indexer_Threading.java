@@ -199,7 +199,10 @@ public class Indexer_Threading {
 
     public static void InsertFirstOccurrenceOfString(String paragraph, List<String> word, HashMap<String, String> firstOccurrenceOfWord) {
 
-        paragraph = paragraph.substring(0,  (paragraph.length() >200) ? 200  :paragraph.length() - 1);
+        if (!paragraph.isEmpty())
+        {
+            paragraph = paragraph.substring(0,  (paragraph.length() >300) ? 300  :paragraph.length() - 1);
+        }
 
         word.removeAll(StopWords);
         for (String str : word) {
@@ -242,17 +245,18 @@ public class Indexer_Threading {
             threads[i] = new Thread(() -> {
 
                     for (int k = startIndex; k < endIndex; k++) {
-                        try {
+
                             String link = LinksOfCrawler.get(k);
                             System.out.println("Thread " + Thread.currentThread().getName());
                             System.out.println("HashMap Size : " + DB.size() + " Link#" + k);
-                            org.jsoup.nodes.Document doc = Jsoup
-                                    .connect(link)
-                                    .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36")
-                                    .referrer("http://www.google.com")
-                                    .timeout(10000)
-                                    .get();
-                            String title = doc.title();
+                        org.jsoup.nodes.Document doc = null;
+                        try {
+                            doc = Jsoup.connect(link).get();
+                        } catch (IOException e) {
+                            System.out.println("Error :----------------------------------------------- ");
+                            continue;
+                        }
+                        String title = doc.title();
                             /* This array will contain only HTML text with Elements without Child */
                             ArrayList<Element> ElementsWithoutChild = new ArrayList<Element>();
                             List<String> Words = new ArrayList<>();
@@ -300,11 +304,7 @@ public class Indexer_Threading {
                             WordStemming(Words);
                             InsertIntoHashMap(link, title ,WordPriority, Words, firstOccurrenceOfWord);
 
-                        } catch (Exception e) {
-                            //e.printStackTrace();
-                            System.out.println("Thread " + Thread.currentThread().getName() + " found bad link");
 
-                        }
                     }
                 System.out.println("Thread " + Thread.currentThread().getName() + " Finished");
             });
@@ -316,7 +316,7 @@ public class Indexer_Threading {
             try {
                 thread.join();
             } catch (InterruptedException e) {
-                // Handle the exception...
+                System.out.println("join interrupted");
             }
         }
         System.out.println("Finished threads");

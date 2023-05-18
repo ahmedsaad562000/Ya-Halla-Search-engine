@@ -30,6 +30,7 @@ public class HelloController {
     // make a post request to /api/employees/{id}
 
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/upload")
     public HashMap<String, Object> upload(
             @RequestParam("search") String SearchQuery, @RequestParam("phrase") boolean phrase) {
@@ -192,7 +193,10 @@ public class HelloController {
                 occurence.add(temp[1] + "\n");
             }
 
-
+            String Occurenssce = occurence.toString().replace("[" , "").replace("]" , "");
+            if (link.isEmpty() || Occurenssce.isEmpty() || title.isEmpty()) {
+                continue;
+            }
             SearchResults.add(new SearchResult(link, occurence.toString().replace("[" , "").replace("]" , ""), title));
 
             //GetFirstOccurence
