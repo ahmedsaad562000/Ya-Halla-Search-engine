@@ -275,30 +275,7 @@ public class Indexer {
                 RemoveStopWordsFromList();
                 WordStemming();
                 InsertIntoHashMap(link);
-//                convertHashMapToDocument();
-//                for(Document document : Documents)
-//                {
-//                    String wordName = document.get("word").toString();
-//                    int DocumentFrequency = (int) document.get("DF");
-//                    double IDF = (double) document.get("IDF");
-//                    List<List<String>> URLS_Details = (List<List<String>>) document.get("URLS");
-//                    Bson FilterQuery = Filters.eq("word" , wordName);
-//                    long count = col.countDocuments(FilterQuery);
-//                    boolean found = count > 0;
-//                    if(found) {
-//                        Bson filter = Filters.eq("word" , wordName);
-//                        Bson updateOperation = Updates.combine(
-//                                Updates.set("DF" , DocumentFrequency) ,
-//                                Updates.set("IDF" , IDF) ,
-//                                Updates.set("URLS" , URLS_Details)
-//                        );
-//                        col.updateOne(filter , updateOperation);
-//                    }
-//                    else
-//                    {
-//                        col.insertOne(document);
-//                    }
-//                }
+
             }
             catch (IOException e)
             {

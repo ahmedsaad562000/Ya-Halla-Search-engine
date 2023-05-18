@@ -11,14 +11,17 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Indexer_Threading {
     /* Global Variable that will be used inside main and Utilities Functions */
     public static List<String> LinksOfCrawler = new ArrayList<>();
-    public static ConcurrentLinkedDeque<Document> Documents = new ConcurrentLinkedDeque<>();
+    public static List<Document> Documents = new ArrayList<>();
     public static ConcurrentHashMap<String, WordDocuement> DB = new ConcurrentHashMap<>();
     public static List<String> StopWords;
 
@@ -174,6 +177,7 @@ public class Indexer_Threading {
                 URL_Document.put("Positions", urlDocument.WordPosition);
                 URL_Document.put("FirstOccurrence", urlDocument.firstParagraph);
                 All_URL_Documents.add(URL_Document);
+                System.out.println("Size of positions: " + urlDocument.WordPosition.size());
             }
             documentEntry.put("URLS", All_URL_Documents);
             Documents.add(documentEntry);
@@ -210,7 +214,7 @@ public class Indexer_Threading {
         /* Create a Buffer reader to read URL Links */
         BufferedReader fileReader = new BufferedReader(new FileReader("seedsets.txt"));
         String fileName = null;
-        int numThreads = Runtime.getRuntime().availableProcessors(); // Get the number of available processors
+        int numThreads = 24; // Get the number of available processors
         int chunkSize = LinksOfCrawler.size() / numThreads; // Calculate the chunk size for each thread
 
         Thread[] threads = new Thread[numThreads];
@@ -229,7 +233,7 @@ public class Indexer_Threading {
                                 .connect(link)
                                 .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36")
                                 .referrer("http://www.google.com")
-                                .timeout(80000)
+                                .timeout(10000)
                                 .get();
                         /* This array will contain only HTML text with Elements without Child */
                         ArrayList<Element> ElementsWithoutChild = new ArrayList<Element>();

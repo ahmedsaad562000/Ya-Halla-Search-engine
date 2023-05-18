@@ -6,8 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="540df1e2-074a-4496-9be9-4e73b21510b3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Backend/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Backend/HelloController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Backend/SearchResultRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Backend/SearchResultRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Indexer/Indexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Indexer/Indexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Indexer_Futures/Indexer_Futures.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Indexer_Futures/Indexer_Futures.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Indexer_Threading/Indexer_Threading.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Indexer_Threading/Indexer_Threading.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,8 +54,8 @@
     "Repository.Attach.Sources": "false",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
+    "RequestMappingsPanelWidth0": "15",
+    "RequestMappingsPanelWidth1": "15",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
@@ -82,7 +85,20 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.Application">
+  <component name="RunManager" selected="Application.Indexer_Futures">
+    <configuration name="Indexer_Futures" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Indexer_Futures.Indexer_Futures" />
+      <module name="Search-engine-Project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Indexer_Futures.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Indexer.Indexer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Indexer.Indexer" />
       <module name="Search-engine-Project" />
@@ -90,12 +106,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Ranker.Main" />
+    <configuration name="Indexer_Threading" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Indexer_Threading.Indexer_Threading" />
       <module name="Search-engine-Project" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Ranker.*" />
+          <option name="PATTERN" value="Indexer_Threading.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -107,19 +123,6 @@
       <option name="MAIN_CLASS_NAME" value="Crawler.MainCrawler" />
       <module name="Search-engine-Project" />
       <option name="PROGRAM_PARAMETERS" value="6000 16" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PhraseSearcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="PhraseSearcher.PhraseSearcher" />
-      <module name="Search-engine-Project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="PhraseSearcher.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -138,19 +141,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Indexer_Futures" />
+      <item itemvalue="Application.Indexer_Threading" />
       <item itemvalue="Application.Indexer.Indexer" />
-      <item itemvalue="Application.Main" />
       <item itemvalue="Application.MainCrawler" />
-      <item itemvalue="Application.PhraseSearcher" />
       <item itemvalue="Spring Boot.Application" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Indexer_Futures" />
+        <item itemvalue="Application.Indexer_Threading" />
         <item itemvalue="Spring Boot.Application" />
         <item itemvalue="Application.Indexer.Indexer" />
         <item itemvalue="Application.MainCrawler" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.PhraseSearcher" />
       </list>
     </recent_temporary>
   </component>
@@ -180,7 +183,7 @@
       <workItem from="1684328318736" duration="3272000" />
       <workItem from="1684331630340" duration="24611000" />
       <workItem from="1684357284472" duration="9997000" />
-      <workItem from="1684367850634" duration="5439000" />
+      <workItem from="1684367850634" duration="11020000" />
     </task>
     <task id="LOCAL-00001" summary="Add Files">
       <created>1682546577429</created>
@@ -315,7 +318,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684368311685</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Added front end">
+      <created>1684376871388</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1684376871388</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -347,7 +357,8 @@
     <MESSAGE value="-Removed ranker warnings&#10;-Removed DBcontroller warnings&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
     <MESSAGE value="-Removed ranker warnings&#10;-Removed DBcontroller warnings&#10;-Phrase searching&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
     <MESSAGE value="Added 2 indexers" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added 2 indexers" />
+    <MESSAGE value="Added front end" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added front end" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
