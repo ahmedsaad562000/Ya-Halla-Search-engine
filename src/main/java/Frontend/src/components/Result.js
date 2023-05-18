@@ -35,7 +35,7 @@ const Result = ({query, occurence, url, title}) => {
             <div class="mt-2 mb-4 text-md text-gray-400 ">
                 {relevantText.map((part, index) =>
                     // Wrap the matched words in <strong> tags
-                    query.includes(part)? <strong>{part} </strong> : part + " "
+                    query.includes(part.toLowerCase())? <strong>{part} </strong> : part + " "
                 )}
             </div>
         </div>
