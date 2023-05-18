@@ -1,7 +1,11 @@
 package Indexer_Threading;
 
 import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
+import org.bson.BsonDocument;
+import org.bson.BsonDocumentWrapper;
 import org.bson.Document;
+import org.bson.RawBsonDocument;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -14,6 +18,8 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static DBController.DB_Controller.db;
 
 public class Indexer_Threading {
     /* Global Variable that will be used inside main and Utilities Functions */
@@ -85,7 +91,7 @@ public class Indexer_Threading {
         return Priority;
     }
 
-    public static void InsertIntoHashMap(String URL_Name, HashMap<String, Integer> WordPriority, List<String> Words, HashMap<String, String> firstOccurrenceOfWord) {
+    public static void InsertIntoHashMap(String URL_Name, String title , HashMap<String, Integer> WordPriority, List<String> Words, HashMap<String, String> firstOccurrenceOfWord) {
         Integer index = 0;
         for (String Word : Words) {
             if (!DB.containsKey(Word)) {
@@ -101,6 +107,7 @@ public class Indexer_Threading {
                 // Added //
                 urlDocument.WordPosition.add(index);
                 urlDocument.firstParagraph = firstOccurrenceOfWord.get(Word);
+                urlDocument.title = title;
                 //*******//
                 wordDocuement.URLS.add(urlDocument);
                 DB.put(Word, wordDocuement);
@@ -127,6 +134,7 @@ public class Indexer_Threading {
                     newURL.Priority = WordPriority.get(Word);
                     newURL.WordPosition.add(index);
                     newURL.firstParagraph = firstOccurrenceOfWord.get(Word);
+                    newURL.title = title;
                     wordDocuement.URLS.add(newURL);
                     DB.put(Word, wordDocuement);
                 }
@@ -169,6 +177,7 @@ public class Indexer_Threading {
                 }
                 List<Integer> WordPositions = urlDocument.WordPosition;
                 URL_Document.put("URL_Name", urlDocument.URL_name);
+                URL_Document.put("URL_Title", urlDocument.title);
                 URL_Document.put("TF", urlDocument.TermFrequency);
                 URL_Document.put("Priority", urlDocument.Priority);
                 URL_Document.put("Positions", urlDocument.WordPosition);
@@ -176,11 +185,22 @@ public class Indexer_Threading {
                 All_URL_Documents.add(URL_Document);
             }
             documentEntry.put("URLS", All_URL_Documents);
+            BsonDocument bsonDocument = BsonDocumentWrapper.asBsonDocument(documentEntry, db.getCollection("WordDocuments").getCodecRegistry());
+            RawBsonDocument rawBsonDocument = RawBsonDocument.parse(bsonDocument.toJson() );
+
+            int bsonSize = rawBsonDocument.getByteBuffer().remaining();
+            if (bsonSize > 16000000) {
+                System.out.println("Document is too large");
+                continue;
+            }
             Documents.add(documentEntry);
         }
     }
 
     public static void InsertFirstOccurrenceOfString(String paragraph, List<String> word, HashMap<String, String> firstOccurrenceOfWord) {
+
+        paragraph = paragraph.substring(0,  (paragraph.length() >200) ? 200  :paragraph.length() - 1);
+
         word.removeAll(StopWords);
         for (String str : word) {
             String tempStr = stemmingOnlyWord(str);
@@ -210,7 +230,7 @@ public class Indexer_Threading {
         /* Create a Buffer reader to read URL Links */
         BufferedReader fileReader = new BufferedReader(new FileReader("seedsets.txt"));
         String fileName = null;
-        int numThreads = Runtime.getRuntime().availableProcessors(); // Get the number of available processors
+        int numThreads = 10; // Get the number of available processors
         int chunkSize = LinksOfCrawler.size() / numThreads; // Calculate the chunk size for each thread
 
         Thread[] threads = new Thread[numThreads];
@@ -220,67 +240,72 @@ public class Indexer_Threading {
             final int endIndex = (i == numThreads - 1) ? LinksOfCrawler.size() : (i + 1) * chunkSize;
 
             threads[i] = new Thread(() -> {
-                try {
+
                     for (int k = startIndex; k < endIndex; k++) {
-                        String link = LinksOfCrawler.get(k);
-                        System.out.println("Thread " + Thread.currentThread().getName());
-                        System.out.println("HashMap Size : " + DB.size() + " Link#" + k);
-                        org.jsoup.nodes.Document doc = Jsoup
-                                .connect(link)
-                                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36")
-                                .referrer("http://www.google.com")
-                                .timeout(80000)
-                                .get();
-                        /* This array will contain only HTML text with Elements without Child */
-                        ArrayList<Element> ElementsWithoutChild = new ArrayList<Element>();
-                        List<String> Words = new ArrayList<>();
-                        HashMap<String, Integer> WordPriority = new HashMap<>();
-                        HashMap<String, String> firstOccurrenceOfWord = new HashMap<>();
+                        try {
+                            String link = LinksOfCrawler.get(k);
+                            System.out.println("Thread " + Thread.currentThread().getName());
+                            System.out.println("HashMap Size : " + DB.size() + " Link#" + k);
+                            org.jsoup.nodes.Document doc = Jsoup
+                                    .connect(link)
+                                    .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36")
+                                    .referrer("http://www.google.com")
+                                    .timeout(10000)
+                                    .get();
+                            String title = doc.title();
+                            /* This array will contain only HTML text with Elements without Child */
+                            ArrayList<Element> ElementsWithoutChild = new ArrayList<Element>();
+                            List<String> Words = new ArrayList<>();
+                            HashMap<String, Integer> WordPriority = new HashMap<>();
+                            HashMap<String, String> firstOccurrenceOfWord = new HashMap<>();
 //                            List<Document> Documents = new ArrayList<>();
 
-                        /* Select all HTML Tags from downloaded Document*/
-                        Elements elements = doc.select("*");
-                        /* This loop check if Element has child ignore it --> it only Focus on Elements without child */
-                        for (Element elements1 : elements) {
-                            String tagName = elements1.tagName();
-                            if (tagName.equals("h1") || tagName.equals("h2") || tagName.equals("h3") || tagName.equals("h4")
-                                    || tagName.equals("h5") || tagName.equals("h6") || tagName.equals("p")
-                                    || tagName.equals("span") || tagName.equals("title") || tagName.equals("li")
-                                    || tagName.equals("td") || tagName.equals("th"))
-                                ElementsWithoutChild.add(elements1);
-                        }
+                            /* Select all HTML Tags from downloaded Document*/
+                            Elements elements = doc.select("*");
+                            /* This loop check if Element has child ignore it --> it only Focus on Elements without child */
+                            for (Element elements1 : elements) {
+                                String tagName = elements1.tagName();
+                                if (tagName.equals("h1") || tagName.equals("h2") || tagName.equals("h3") || tagName.equals("h4")
+                                        || tagName.equals("h5") || tagName.equals("h6") || tagName.equals("p")
+                                        || tagName.equals("span") || tagName.equals("title") || tagName.equals("li")
+                                        || tagName.equals("td") || tagName.equals("th"))
+                                    ElementsWithoutChild.add(elements1);
+                            }
 
-                        /* List which will contains all words without any duplication */
-                        for (Element element : ElementsWithoutChild) {//
-                            Integer Priority = getPriorityOfWord(element.tagName());//
-                            String tempStr = element.text();//
-                            List<String> tempList = splitWords(tempStr);//
-                            // Added NOW //
-                            InsertFirstOccurrenceOfString(tempStr, tempList, firstOccurrenceOfWord);//
-                            for (String str : tempList) {
-                                String LowerCaseWord = str.toLowerCase();//
-                                if (!StopWords.contains(LowerCaseWord)) {
-                                    String stemmingWord = stemmingOnlyWord(LowerCaseWord);//
-                                    if (!WordPriority.containsKey(stemmingWord)) {
-                                        WordPriority.put(stemmingWord, Priority);//
-                                    } else {
-                                        Integer P = WordPriority.get(stemmingWord);
-                                        if (P > Priority) {
-                                            Priority = P;
-                                            WordPriority.put(stemmingWord, Priority);
+                            /* List which will contains all words without any duplication */
+                            for (Element element : ElementsWithoutChild) {//
+                                Integer Priority = getPriorityOfWord(element.tagName());//
+                                String tempStr = element.text();//
+                                List<String> tempList = splitWords(tempStr);//
+                                // Added NOW //
+                                InsertFirstOccurrenceOfString(tempStr, tempList, firstOccurrenceOfWord);//
+                                for (String str : tempList) {
+                                    String LowerCaseWord = str.toLowerCase();//
+                                    if (!StopWords.contains(LowerCaseWord)) {
+                                        String stemmingWord = stemmingOnlyWord(LowerCaseWord);//
+                                        if (!WordPriority.containsKey(stemmingWord)) {
+                                            WordPriority.put(stemmingWord, Priority);//
+                                        } else {
+                                            Integer P = WordPriority.get(stemmingWord);
+                                            if (P > Priority) {
+                                                Priority = P;
+                                                WordPriority.put(stemmingWord, Priority);
+                                            }
                                         }
                                     }
+                                    Words.add(str.toLowerCase());
                                 }
-                                Words.add(str.toLowerCase());
                             }
+                            RemoveStopWordsFromList(Words);
+                            WordStemming(Words);
+                            InsertIntoHashMap(link, title ,WordPriority, Words, firstOccurrenceOfWord);
+
+                        } catch (Exception e) {
+                            //e.printStackTrace();
+                            System.out.println("Thread " + Thread.currentThread().getName() + " found bad link");
+
                         }
-                        RemoveStopWordsFromList(Words);
-                        WordStemming(Words);
-                        InsertIntoHashMap(link, WordPriority, Words, firstOccurrenceOfWord);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 System.out.println("Thread " + Thread.currentThread().getName() + " Finished");
             });
             threads[i].start();
@@ -297,7 +322,8 @@ public class Indexer_Threading {
         System.out.println("Finished threads");
         convertHashMapToDocument();
         System.out.println("Finished converting map to document");
-        col.drop();
+        //delete all documents from collection
+        col.deleteMany( Filters.eq("word", ""));
         System.out.println("Starting to Fetch to Database");
         col.insertMany(Arrays.asList(Documents.toArray()));
 

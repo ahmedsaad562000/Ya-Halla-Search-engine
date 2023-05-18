@@ -18,7 +18,7 @@ public class StaticArray {
     {
 
         String srcLink = "";
-        if (Link.startsWith("http") && !Link.startsWith("https://auth") &&  !Link.startsWith("https://www.linkedin") && !Link.matches(pdfregex)) {
+        if (Link.startsWith("https") && !Link.startsWith("http://www.foodnetworklatam") &&!Link.startsWith("http://www.foodnetworktv")  && !Link.startsWith("https://www.pinterest.com") &&!Link.startsWith("https://twitter") && !Link.startsWith("https://auth") &&  !Link.startsWith("https://www.linkedin") && !Link.matches(pdfregex)) {
             try {
                 Link = NormalizeURL.normalize(Link);
             }

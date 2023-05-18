@@ -1,6 +1,7 @@
 package Backend;
 
-
+import PhraseSearcher.PhraseSearcher;
+import Ranker.Main;
 import DBController.DB_Controller;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -61,7 +62,7 @@ public class HelloController {
 
         long start = System.currentTimeMillis();
 
-
+        HashMap<String, Object> returned_results = new HashMap<>();
         String[] splitted = SearchQuery.split(" ");
 
         porterStemmer stemmer = new porterStemmer();
@@ -69,29 +70,54 @@ public class HelloController {
             stemmer.setCurrent(splitted[i]);
             stemmer.stem();
             splitted[i] = stemmer.getCurrent();
+           // System.out.println(splitted[i]);
         }
 
 
-        //Hashmap from ranker
+        if (phrase) {
+            PhraseSearcher.PhraseSearchData phraseSearch = new PhraseSearcher.PhraseSearchData();
+            try {
+                PhraseSearcher.searchPhrase( splitted);
+            } catch (IOException e) {
+                System.out.println("error in reaading in phrase searching");
+            }
+
+            Set<String> links = phraseSearch.ranked_links.keySet();
+            List<SearchResult> results = new ArrayList<>();
+            for    (String link : links) {
+                results.add(new SearchResult( link, phraseSearch.URL_OccurrenceText.get(link).toString().replace("[" , "").replace("]" , ""), phraseSearch.link_title.get(link)));
+            }
+            long end = System.currentTimeMillis();
+            double time = (end - start) / 1000.0;
+            returned_results.put("time", time);
+            returned_results.put("results", results);
+        }
+        else {
+            //Hashmap from ranker
+            HashMap<String, Double> ranker_map = Main.getPageRanks(splitted);
+
+            // System.out.println(ranker_map);
+
+            // Sort By Value
 
 
-        // Sort By Value
-
-        //Get Keys(Links)
-        //demo
-        Set<String> keys = new HashSet<>();
-
-        List<SearchResult> results = Get_Search_Results(keys, splitted);
-
-        HashMap<String, Object> returned_results = new HashMap<>();
-
-        long end = System.currentTimeMillis();
-        double time = (end - start) / 1000.0;
-        returned_results.put("time", time);
-        //map to list
+            //Get Keys(Links)
+            //demo
+            Set<String> keys = ranker_map.keySet();
+            //keys.add("https://edition.cnn.com");
+            //demo
+            List<SearchResult> results = Get_Search_Results(keys, splitted);
 
 
-        returned_results.put("results", results);
+
+            long end = System.currentTimeMillis();
+            double time = (end - start) / 1000.0;
+            returned_results.put("time", time);
+            //map to list
+
+
+            returned_results.put("results", results);
+        }
         return returned_results;
     }
 
@@ -137,37 +163,41 @@ public class HelloController {
             //getTitle from link;
             Document document;
 
-            try {
+            /*try {
                 document = Jsoup.connect(link)
                         .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36")
                         .referrer("http://www.google.com")
                         .get();
 
             } catch (IOException e) {
-                Links.remove(link);
+                //Links.remove(link);
                 continue;
-            }
-            String title = document.title();
+            }*/
+            String title = "";
 
 
             //get FirstOccurence of all words from link;
-            String temp;
-            StringBuilder occurence = new StringBuilder();
+            String[] temp = new String[2];
+            HashSet occurence = new HashSet<>();
             for (String word : queryWords) {
                 //getOccurence from word and link;
                 temp = DB_Controller.getFirstOcuurenceString(word, link);
-                if (temp.equals("")) {
+                if (temp[1].equals("")) {
                     continue;
                 }
-                occurence.append(temp);
-                occurence.append("\n");
+                if (!temp[0].equals(""))
+                {
+                    title = temp[0];
+                }
+                occurence.add(temp[1] + "\n");
             }
 
 
-            SearchResults.add(new SearchResult(link, occurence.toString(), title));
+            SearchResults.add(new SearchResult(link, occurence.toString().replace("[" , "").replace("]" , ""), title));
 
             //GetFirstOccurence
         }
+
 
 
         return SearchResults;

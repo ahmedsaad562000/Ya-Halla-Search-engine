@@ -8,10 +8,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -140,11 +137,12 @@ public class PhraseSearcher {
         // K: URL, V: occurrences of the phrase in the page
         HashMap<String, Integer> phraseURLs = new HashMap<String, Integer>();
         ArrayList<Document> first_word_URLs = wordData.get(phrase_query[0]).get("URLS", ArrayList.class);
-
+        HashMap<String , String> titles = new HashMap<>();
         do {
             // Special case
             if (phrase_query.length == 1) {
                 for (Document doc : first_word_URLs) {
+                    titles.put(doc.get("URL_Name").toString(), doc.get("URL_Title").toString());
                     occurrences.putIfAbsent(doc.get("URL_Name").toString(), 1);
                     URLOccurrenceText.putIfAbsent(doc.get("URL_Name").toString(), new ArrayList<>());
                     URLOccurrenceText.get(doc.get("URL_Name").toString()).add(doc.get("FirstOccurrence").toString());
@@ -172,6 +170,7 @@ public class PhraseSearcher {
                                         // Add the text of both words
                                         URLOccurrenceText.get(first_doc_url).add(first_word_doc.get("FirstOccurrence"));
                                         URLOccurrenceText.get(second_word_url).add(first_word_doc.get("FirstOccurrence"));
+                                        titles.put(first_doc_url, first_word_doc.get("URL_Title").toString());
                                         break;
                                     }
                                 }
@@ -204,7 +203,27 @@ public class PhraseSearcher {
 
         Ranker r = new Ranker();
         r.setPageRankSettings(settings);
+
+
+
+
         data.ranked_links = r.startPageRank(occurrences.keySet().toArray(new String[0]));
+
+        // Convert the HashMap to a List of Map.Entry objects
+        List<Map.Entry<String, Double>> list = new ArrayList<>( data.ranked_links.entrySet());
+
+        // Sort the List of Map.Entry objects using a Comparator that compares the values in descending order
+        list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+
+        // Create a new LinkedHashMap to store the sorted entries
+        LinkedHashMap<String, Double> sortedMap = new LinkedHashMap<>();
+
+        // Loop through the sorted List of Map.Entry objects and put each entry into the new LinkedHashMap
+        for (Map.Entry<String, Double> entry : list) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+        data.ranked_links = sortedMap;
+        data.link_title = titles;
         System.out.println("Before ranking = " + phraseURLs.toString());
         System.out.println("Ranked links = " + data.ranked_links.toString());
         return data;
@@ -214,6 +233,7 @@ public class PhraseSearcher {
     public static class PhraseSearchData {
         public HashMap<String, ArrayList> URL_OccurrenceText = new HashMap<>();
         public Map<String, Double> ranked_links = new HashMap<>();
+        public Map<String, String> link_title = new HashMap<>();
     }
 
     public static class URLData {

@@ -312,7 +312,7 @@ public class Ranker {
      * @param sortedMap the map to be sorted
      * @return the sorted map in descending order
      */
-    private LinkedHashMap<String, Double> getSortedHashMap(LinkedHashMap<String, Double> sortedMap) {
+    public LinkedHashMap<String, Double> getSortedHashMap(LinkedHashMap<String, Double> sortedMap) {
         if (TFIDF_settings.topK > 0) {
             // Return the first k entries from the sorted Map
             LinkedHashMap<String, Double> firstKEntries = new LinkedHashMap<>();
@@ -383,7 +383,7 @@ public class Ranker {
                 // TODO Calculate the relevance score with element score
                 // Calculate TF-IDF score for this document (URL)
                 document_word_tfidf = (TF * IDF);
-                System.out.println("Word = " + document.get("word", String.class) + " TF = " + TF + " IDF = " + IDF + " element_weight = " + element_weight + " total_word_tf_idf = " + document_word_tfidf);
+               // System.out.println("Word = " + document.get("word", String.class) + " TF = " + TF + " IDF = " + IDF + " element_weight = " + element_weight + " total_word_tf_idf = " + document_word_tfidf);
 
                 // If this document does not exist in the documents vector, create it
                 if (documents_vector.get(URL) == null) {
@@ -394,7 +394,7 @@ public class Ranker {
                     // Add the old TF-IDF score to the word for this document
                     if (documents_vector.get(URL).containsKey(document.get("word", String.class))) {
                         old_tfidf = documents_vector.get(URL).get(document.get("word", String.class));
-                        System.out.println("old tfidf = " + old_tfidf);
+                        //System.out.println("old tfidf = " + old_tfidf);
                     }
                     // TODO check if adding the TF-IDF of all occurrences of this word is correct
                     documents_vector.get(URL).put(document.get("word", String.class), old_tfidf + document_word_tfidf);

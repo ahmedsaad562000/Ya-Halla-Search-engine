@@ -22,7 +22,7 @@ public class DB_Controller {
     static private final String LOCAL_DB_CONNECTION_STRING = "mongodb://localhost:27017";
     static private final String REMOTE_DB_CONNECTION_STRING = "mongodb+srv://ahmedhussein00:9thNQZQc7hANflRt@sw-backend.ktfxxtz.mongodb.net/?retryWrites=true&w=majority";
     static MongoClient client = MongoClients.create(LOCAL_DB_CONNECTION_STRING);
-    static MongoDatabase db = client.getDatabase(DATABASE_NAME);
+    public static MongoDatabase db = client.getDatabase(DATABASE_NAME);
     public static MongoCollection<Document> crawler_links = db.getCollection(CRAWLER_LINKS_COLLECTION);
     public static MongoCollection<Document> crawler_relations = db.getCollection(CRAWLER_RELATIONS_COLLECTION);
     public static MongoCollection<Document> indexer_links = db.getCollection(INDEXER_LINKS_COLLECTION);
@@ -35,10 +35,13 @@ public class DB_Controller {
         for (Document document : d) {
             System.out.println(document.toJson());
         }*/
-        String Link = "https://www.w3schools.com/";
+       /* String Link = "https://www.w3schools.com/";
         System.out.println(Link);
         Link = Link.endsWith("/") ? Link.substring(0, Link.length() - 1) : Link;
-        System.out.println(Link);
+        System.out.println(Link);*/
+
+
+        //System.out.println("Document size: " + size + " bytes");
     }
 
 
@@ -102,8 +105,8 @@ public class DB_Controller {
 
 
         UpdateResult ur = triggers.updateOne(Filters.eq("collection_name", CRAWLER_LINKS_COLLECTION), Updates.set("last_updated", new Date()));
-        System.out.println("hellloooooooooooo");
-        System.out.println(ur.getModifiedCount());
+       // System.out.println("hellloooooooooooo");
+       // System.out.println(ur.getModifiedCount());
         if (ur.getModifiedCount() == 0) {
             Document document = new Document();
             document.append("collection_name", CRAWLER_LINKS_COLLECTION);
@@ -125,28 +128,33 @@ public class DB_Controller {
     return false;
     }
 
-   public static String getFirstOcuurenceString(String Word , String Link) {
+   public static String[] getFirstOcuurenceString(String Word , String Link) {
         Bson getFirstOcureence = Filters.in("word", Word);
-
+        String[] returnedlist = new String[2];
+       returnedlist[0] = "";
+       returnedlist[1] = "";
         FindIterable<Document> It = db.getCollection("WordDocuments").find(getFirstOcureence);
-        HashMap<String , Object> Temp2 = null;
+        Object Temp2 = null;
         Object Temp = null;
-        List<Object> Temp3 = new ArrayList<>();
+        List<Document> Temp3 = new ArrayList<>();
         for (Document document : It) {
             Temp = document.get("URLS");
             if (Temp != null) {
-                Temp3 = (List<Object>) Temp;
-                for (Object object : Temp3) {
-                    Temp2 = (HashMap<String, Object>) object;
-                    if (Temp2.get("URL_Name").equals(Link)) {
-                        return Temp2.get("FirstOccurrence").toString();
+                Temp3 = (List) Temp;
+                for (Document object : Temp3) {
+                    Temp2 = object;
+
+                   if (((Document) Temp2).get("URL_Name").equals(Link)) {
+                       returnedlist[0] = ((Document) Temp2).get("URL_Title").toString();
+                       returnedlist[1] =  ((Document) Temp2).get("FirstOccurrence").toString();
+                        return returnedlist;
                     }
                 }
 
             }
         }
 
-        return "";
+        return returnedlist;
     }
 
 
