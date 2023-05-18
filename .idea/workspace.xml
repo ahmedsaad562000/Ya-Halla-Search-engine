@@ -6,16 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="540df1e2-074a-4496-9be9-4e73b21510b3" name="Changes" comment="-Removed ranker warnings&#10;-Removed DBcontroller warnings&#10;-Phrase searching&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Search-engine-Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Search-engine-Project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Backend/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Backend/HelloController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Crawler/StaticArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Crawler/StaticArray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/DBController/DB_Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DBController/DB_Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Indexer_Threading/Indexer_Threading.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Indexer_Threading/Indexer_Threading.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Indexer_Threading/URLDocument.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Indexer_Threading/URLDocument.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Logger_custom/Logger_custom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Logger_custom/Logger_custom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PhraseSearcher/PhraseSearcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PhraseSearcher/PhraseSearcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Ranker/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ranker/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Ranker/Ranker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ranker/Ranker.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
