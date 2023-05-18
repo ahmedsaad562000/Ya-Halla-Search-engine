@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="540df1e2-074a-4496-9be9-4e73b21510b3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Frontend/src/components/Result.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frontend/src/components/Result.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Frontend/src/pages/Results.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frontend/src/pages/Results.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +188,7 @@
       <workItem from="1684357284472" duration="9997000" />
       <workItem from="1684367850634" duration="332000" />
       <workItem from="1684385782627" duration="2403000" />
-      <workItem from="1684388226957" duration="5635000" />
+      <workItem from="1684388226957" duration="6010000" />
     </task>
     <task id="LOCAL-00001" summary="Add Files">
       <created>1682546577429</created>
@@ -323,7 +323,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684394083671</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="aaaasdfasdfgdf">
+      <created>1684394173250</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1684394173250</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -356,7 +363,8 @@
     <MESSAGE value="-Removed ranker warnings&#10;-Removed DBcontroller warnings&#10;-Phrase searching&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
     <MESSAGE value="aaa" />
     <MESSAGE value="aaaasdfasdf" />
-    <option name="LAST_COMMIT_MESSAGE" value="aaaasdfasdf" />
+    <MESSAGE value="aaaasdfasdfgdf" />
+    <option name="LAST_COMMIT_MESSAGE" value="aaaasdfasdfgdf" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

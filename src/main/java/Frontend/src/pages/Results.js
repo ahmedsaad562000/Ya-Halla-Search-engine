@@ -10,13 +10,20 @@ const Results = () => {
     const [searchTime, setSearchTime] = useState(0);
     const [query, setResult] = React.useState("");
     const [pageNumber, setPageNumber] = useState(0);
-
+    const [total_pages, setTotalPages] = useState(0);
     const usersPerPage = 10;
     const pagesVisited = pageNumber * usersPerPage;
+    const isPhrase = query.startsWith('"') && query.endsWith('"');
     const changePage = ({selected}) => {
+        // Remove quotations
+       const  queryString2 = queryString.replace(/"/g, "");
+
+        const response = fetch(
+            `${process.env.REACT_APP_API_URL}/upload?search=${queryString2}&phrase=${isPhrase}&page=${selected}}`,
+        )
         setPageNumber(selected);
     };
-    const pageCount = Math.ceil(searchResults.length / usersPerPage);
+    const pageCount = Math.ceil(total_pages / usersPerPage);
     const displayUsers = searchResults
         .slice(pagesVisited, pagesVisited + usersPerPage)
         .map((result) => {
@@ -62,6 +69,7 @@ const Results = () => {
                     return
                 }
                 console.log(result);
+                setTotalPages(result.number);
                 setSearchResults(result.results);
                 setSearchTime(result.time);
                 setIsLoading(false);
