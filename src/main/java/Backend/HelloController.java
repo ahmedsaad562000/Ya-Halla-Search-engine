@@ -28,19 +28,19 @@ public class HelloController {
 
     // make a post request to /api/employees/{id}
 
-
+    @CrossOrigin
     @GetMapping("/upload")
     public HashMap<String, Object> upload(
             @RequestParam("search") String SearchQuery, @RequestParam("phrase") boolean phrase) {
 
 
 
-        /*
+
 
         HashMap<Double, SearchResult> map = new HashMap<>();
 
-        for (double i = 100; i >= 0; i-=0.5) {
-            map.put(i ,new SearchResult("Link" + i  , "Paragraph" + i  , "Title" + i  ));
+        for (double i = 10; i >= 0; i-=0.5) {
+            map.put(i ,new SearchResult( "google.com"  , "Paragraph" + i  , "Title" + i  ));
         }
         TreeMap<Double, SearchResult> asd22 = new TreeMap<>(map);
         double time = 0.125;
@@ -56,43 +56,43 @@ public class HelloController {
 
 
         asd.put("results" , list);
-        return asd;*/
+        return asd;
 
 
-        long start = System.currentTimeMillis();
-
-
-        String[] splitted = SearchQuery.split(" ");
-
-        porterStemmer stemmer = new porterStemmer();
-        for (int i = 0; i < splitted.length; ++i) {
-            stemmer.setCurrent(splitted[i]);
-            stemmer.stem();
-            splitted[i] = stemmer.getCurrent();
-        }
-
-
-        //Hashmap from ranker
-
-
-        // Sort By Value
-
-        //Get Keys(Links)
-        //demo
-        Set<String> keys = new HashSet<>();
-
-        List<SearchResult> results = Get_Search_Results(keys, splitted);
-
-        HashMap<String, Object> returned_results = new HashMap<>();
-
-        long end = System.currentTimeMillis();
-        double time = (end - start) / 1000.0;
-        returned_results.put("time", time);
-        //map to list
-
-
-        returned_results.put("results", results);
-        return returned_results;
+//        long start = System.currentTimeMillis();
+//
+//
+//        String[] splitted = SearchQuery.split(" ");
+//
+//        porterStemmer stemmer = new porterStemmer();
+//        for (int i = 0; i < splitted.length; ++i) {
+//            stemmer.setCurrent(splitted[i]);
+//            stemmer.stem();
+//            splitted[i] = stemmer.getCurrent();
+//        }
+//
+//
+//        //Hashmap from ranker
+//
+//
+//        // Sort By Value
+//
+//        //Get Keys(Links)
+//        //demo
+//        Set<String> keys = new HashSet<>();
+//
+//        List<SearchResult> results = Get_Search_Results(keys, splitted);
+//
+//        HashMap<String, Object> returned_results = new HashMap<>();
+//
+//        long end = System.currentTimeMillis();
+//        double time = (end - start) / 1000.0;
+//        returned_results.put("time", time);
+//        //map to list
+//
+//
+//        returned_results.put("results", results);
+//        return returned_results;
     }
 
 
