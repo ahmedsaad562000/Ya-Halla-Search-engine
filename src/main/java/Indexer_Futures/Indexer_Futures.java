@@ -191,7 +191,7 @@ public class Indexer_Futures {
             RawBsonDocument rawBsonDocument = RawBsonDocument.parse(bsonDocument.toJson());
 
             int bsonSize = rawBsonDocument.getByteBuffer().remaining();
-            if (bsonSize > 16777000) {
+            if (bsonSize > 1677700) {
                 System.out.println("Size = " + bsonSize);
                 System.out.println(documentEntry.toJson());
             }
@@ -233,7 +233,7 @@ public class Indexer_Futures {
         ExecutorService executor = Executors.newFixedThreadPool(12);
         Future<?>[] futures = new Future[LinksOfCrawler.size()];
         int i = 0;
-        for (String link : LinksOfCrawler.stream().limit(4000).collect(Collectors.toList())) {
+        for (String link : LinksOfCrawler) {
             int index = i;
             try {
                 futures[i++] = executor.submit(() -> {
@@ -313,9 +313,16 @@ public class Indexer_Futures {
         System.out.println("Finished converting map to document");
         col.drop();
         System.out.println("Starting to Fetch to Database");
+        int chunkSize = 100;
 
-        col.insertMany(Documents);
+        for (int k = 0; k < Documents.size(); k += chunkSize) {
+            if (k + chunkSize > Documents.size()) {
+                chunkSize = Documents.size() - k;
+            }
 
+            List chunk = Documents.subList(k, k + chunkSize);
+            col.insertMany(chunk);
+        }
         executor.shutdown();
     }
 }
