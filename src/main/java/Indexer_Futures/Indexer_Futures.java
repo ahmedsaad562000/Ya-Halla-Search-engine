@@ -1,7 +1,10 @@
 package Indexer_Futures;
 
 import com.mongodb.client.*;
+import org.bson.BsonDocument;
+import org.bson.BsonDocumentWrapper;
 import org.bson.Document;
+import org.bson.RawBsonDocument;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -10,15 +13,19 @@ import org.tartarus.snowball.ext.porterStemmer;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Indexer_Futures {
     /* Global Variable that will be used inside main and Utilities Functions */
     public static List<String> LinksOfCrawler = new ArrayList<>();
-    public static ConcurrentLinkedDeque<Document> Documents = new ConcurrentLinkedDeque<>();
+    public static List<Document> Documents = new ArrayList<>();
     public static ConcurrentHashMap<String, WordDocuement> DB = new ConcurrentHashMap<>();
     public static List<String> StopWords;
 
@@ -136,6 +143,10 @@ public class Indexer_Futures {
     }
 
     public static void convertHashMapToDocument() {
+        MongoClient client = MongoClients.create("mongodb://localhost:27017");
+
+        MongoDatabase db = client.getDatabase("SearchEngine");
+        MongoCollection col = db.getCollection("WordDocuments");
 
         for (Map.Entry<String, WordDocuement> entry : DB.entrySet()) {
             String key = entry.getKey();
@@ -174,6 +185,15 @@ public class Indexer_Futures {
                 URL_Document.put("Positions", urlDocument.WordPosition);
                 URL_Document.put("FirstOccurrence", urlDocument.firstParagraph);
                 All_URL_Documents.add(URL_Document);
+
+            }
+            BsonDocument bsonDocument = BsonDocumentWrapper.asBsonDocument(documentEntry, col.getCodecRegistry());
+            RawBsonDocument rawBsonDocument = RawBsonDocument.parse(bsonDocument.toJson());
+
+            int bsonSize = rawBsonDocument.getByteBuffer().remaining();
+            if (bsonSize > 16777000) {
+                System.out.println("Size = " + bsonSize);
+                System.out.println(documentEntry.toJson());
             }
             documentEntry.put("URLS", All_URL_Documents);
             Documents.add(documentEntry);
@@ -213,7 +233,7 @@ public class Indexer_Futures {
         ExecutorService executor = Executors.newFixedThreadPool(12);
         Future<?>[] futures = new Future[LinksOfCrawler.size()];
         int i = 0;
-        for (String link : LinksOfCrawler) {
+        for (String link : LinksOfCrawler.stream().limit(4000).collect(Collectors.toList())) {
             int index = i;
             try {
                 futures[i++] = executor.submit(() -> {
@@ -224,7 +244,7 @@ public class Indexer_Futures {
                                 .connect(link)
                                 .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36")
                                 .referrer("http://www.google.com")
-                                .timeout(80000)
+                                .timeout(10000)
                                 .get();
                         /* This array will contain only HTML text with Elements without Child */
                         ArrayList<Element> ElementsWithoutChild = new ArrayList<Element>();
@@ -293,7 +313,8 @@ public class Indexer_Futures {
         System.out.println("Finished converting map to document");
         col.drop();
         System.out.println("Starting to Fetch to Database");
-        col.insertMany(Arrays.asList(Documents.toArray()));
+
+        col.insertMany(Documents);
 
         executor.shutdown();
     }
