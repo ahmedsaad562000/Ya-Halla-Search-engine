@@ -102,7 +102,7 @@ public class HelloController {
             }
             long end = System.currentTimeMillis();
             double time = (end - start) / 1000.0;
-            returned_results.put("number", links.size());
+            returned_results.put("number", links.size()/10);
             returned_results.put("time", time);
             returned_results.put("results", results);
         }
@@ -128,7 +128,7 @@ public class HelloController {
             double time = (end - start) / 1000.0;
             returned_results.put("time", time);
             //map to list
-            returned_results.put("number", links.size());
+            returned_results.put("number", links.size()/10);
 
             returned_results.put("results", results);
         }
