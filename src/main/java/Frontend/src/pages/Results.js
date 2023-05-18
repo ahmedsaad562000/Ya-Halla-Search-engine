@@ -39,6 +39,10 @@ const Results = () => {
             var queryString = params.get("query");
             setResult(queryString);
             const isPhrase = queryString.startsWith('"') && queryString.endsWith('"');
+
+            // Remove quotations
+            queryString = queryString.replace(/"/g, "");
+
             // Use the query parameter value as needed
             console.log("Query parameter value:", queryString);
             const fetchResults = async () => {

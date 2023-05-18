@@ -6,11 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="540df1e2-074a-4496-9be9-4e73b21510b3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Indexer/Indexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Indexer/Indexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Frontend/src/pages/Results.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frontend/src/pages/Results.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Indexer_Futures/Indexer_Futures.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Indexer_Futures/Indexer_Futures.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Indexer_Threading/Indexer_Threading.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Indexer_Threading/Indexer_Threading.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,8 +51,8 @@
     "Repository.Attach.Sources": "false",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "15",
-    "RequestMappingsPanelWidth1": "15",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
@@ -69,7 +66,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.3321839",
-    "settings.editor.selected.configurable": "template.copyright.formatting",
+    "settings.editor.selected.configurable": "terminal",
     "spring.configuration.checksum": "ef221de801e84c7479e7b6e28c6db005",
     "vue.rearranger.settings.migration": "true"
   }
@@ -149,9 +146,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.Application" />
         <item itemvalue="Application.Indexer_Futures" />
         <item itemvalue="Application.Indexer_Threading" />
-        <item itemvalue="Spring Boot.Application" />
         <item itemvalue="Application.Indexer.Indexer" />
         <item itemvalue="Application.MainCrawler" />
       </list>
@@ -183,7 +180,7 @@
       <workItem from="1684328318736" duration="3272000" />
       <workItem from="1684331630340" duration="24611000" />
       <workItem from="1684357284472" duration="9997000" />
-      <workItem from="1684367850634" duration="11020000" />
+      <workItem from="1684367850634" duration="12792000" />
     </task>
     <task id="LOCAL-00001" summary="Add Files">
       <created>1682546577429</created>
@@ -325,7 +322,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684376871388</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="added project docs">
+      <created>1684382509937</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1684382509937</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -358,7 +362,8 @@
     <MESSAGE value="-Removed ranker warnings&#10;-Removed DBcontroller warnings&#10;-Phrase searching&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
     <MESSAGE value="Added 2 indexers" />
     <MESSAGE value="Added front end" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added front end" />
+    <MESSAGE value="added project docs" />
+    <option name="LAST_COMMIT_MESSAGE" value="added project docs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,14 +1,10 @@
 package Indexer_Futures;
 
 import com.mongodb.client.*;
-import com.mongodb.client.model.InsertManyOptions;
-import org.bson.*;
-import org.bson.codecs.Codec;
-import org.bson.codecs.DocumentCodec;
-import org.bson.codecs.configuration.CodecRegistries;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
-import org.bson.io.BasicOutputBuffer;
+import org.bson.BsonDocument;
+import org.bson.BsonDocumentWrapper;
+import org.bson.Document;
+import org.bson.RawBsonDocument;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -189,17 +185,16 @@ public class Indexer_Futures {
                 URL_Document.put("Positions", urlDocument.WordPosition);
                 URL_Document.put("FirstOccurrence", urlDocument.firstParagraph);
                 All_URL_Documents.add(URL_Document);
-                if (urlDocument.WordPosition.size() > 30)
-                    System.out.println("Pos size = " + urlDocument.WordPosition.size());
-                BsonDocument bsonDocument = BsonDocumentWrapper.asBsonDocument(URL_Document, col.getCodecRegistry());
-                RawBsonDocument rawBsonDocument = RawBsonDocument.parse(bsonDocument.toJson() );
-
-                int bsonSize = rawBsonDocument.getByteBuffer().remaining();
-                if(bsonSize > 5000)
-                    System.out.println("Size = " + bsonSize);
 
             }
+            BsonDocument bsonDocument = BsonDocumentWrapper.asBsonDocument(documentEntry, col.getCodecRegistry());
+            RawBsonDocument rawBsonDocument = RawBsonDocument.parse(bsonDocument.toJson());
 
+            int bsonSize = rawBsonDocument.getByteBuffer().remaining();
+            if (bsonSize > 16777000) {
+                System.out.println("Size = " + bsonSize);
+                System.out.println(documentEntry.toJson());
+            }
             documentEntry.put("URLS", All_URL_Documents);
             Documents.add(documentEntry);
         }
