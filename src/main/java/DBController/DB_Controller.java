@@ -212,7 +212,7 @@ public class DB_Controller {
     public static HashMap<String, Double> getCachedQueryResult(String[] query) {
         MongoDatabase db = client.getDatabase(DATABASE_NAME);
         MongoCollection col = db.getCollection(QUERY_CACHE_COLLECTION);
-        Date last_crawl_date = new Date(1647388036);
+        Date last_crawl_date = triggers.find().first().get("last_updated" , Date.class);
         Document document = (Document) col.find(Filters.eq("query", Arrays.asList(query))).first();
         if (document != null) {
             // Check if the query add date is before the last crawl date,
