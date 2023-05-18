@@ -78,14 +78,18 @@ public class HelloController {
         if (phrase) {
             PhraseSearcher.PhraseSearchData phraseSearch = new PhraseSearcher.PhraseSearchData();
             try {
-                PhraseSearcher.searchPhrase( splitted);
+                phraseSearch = PhraseSearcher.searchPhrase( splitted);
             } catch (IOException e) {
                 System.out.println("error in reaading in phrase searching");
             }
-
+            //System.out.println(phraseSearch.ranked_links.values());
+            //System.out.println(phraseSearch.ranked_links.keySet());
             Set<String> links = phraseSearch.ranked_links.keySet();
             List<SearchResult> results = new ArrayList<>();
+
             for    (String link : links) {
+                if (phraseSearch.URL_OccurrenceText.get(link) == null)
+                {continue;}
                 results.add(new SearchResult( link, phraseSearch.URL_OccurrenceText.get(link).toString().replace("[" , "").replace("]" , ""), phraseSearch.link_title.get(link)));
             }
             long end = System.currentTimeMillis();
