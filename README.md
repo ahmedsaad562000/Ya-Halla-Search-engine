@@ -25,5 +25,6 @@
 ### Starting the front-end
 
 - Open a terminal in the "Frontend" folder
+- Execute the command ```npm install``` to install the dependencies
 - Execute the command ```npm start```
 - Open ``localhost:3000`` in your browser
