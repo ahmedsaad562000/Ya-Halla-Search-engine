@@ -1,32 +1,14 @@
 package Backend;
 
-import Ranker.Ranker;
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
-import com.sun.source.tree.Tree;
+
+import DBController.DB_Controller;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import DBController.DB_Controller;
-import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.tartarus.snowball.ext.porterStemmer;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.tartarus.snowball.ext.porterStemmer;
-
-import javax.persistence.Tuple;
-
-import static java.lang.Math.ceil;
 
 
 @RestController
@@ -48,8 +30,8 @@ public class HelloController {
 
 
     @GetMapping("/upload")
-    public HashMap<String , Object> upload(
-                         @RequestParam("search") String SearchQuery , @RequestParam("phrase") boolean phrase) {
+    public HashMap<String, Object> upload(
+            @RequestParam("search") String SearchQuery, @RequestParam("phrase") boolean phrase) {
 
 
 
@@ -90,7 +72,6 @@ public class HelloController {
         }
 
 
-
         //Hashmap from ranker
 
 
@@ -100,18 +81,17 @@ public class HelloController {
         //demo
         Set<String> keys = new HashSet<>();
 
-        List<SearchResult> results = Get_Search_Results(keys , splitted);
+        List<SearchResult> results = Get_Search_Results(keys, splitted);
 
-        HashMap<String , Object>  returned_results = new HashMap<>();
+        HashMap<String, Object> returned_results = new HashMap<>();
 
         long end = System.currentTimeMillis();
         double time = (end - start) / 1000.0;
-        returned_results.put("time" , time);
+        returned_results.put("time", time);
         //map to list
 
 
-
-        returned_results.put("results" , results);
+        returned_results.put("results", results);
         return returned_results;
     }
 
@@ -149,13 +129,11 @@ public class HelloController {
     }*/
 
 
-    List<SearchResult> Get_Search_Results(Set<String> Links , String[] queryWords)
-    {
+    List<SearchResult> Get_Search_Results(Set<String> Links, String[] queryWords) {
 
         List<SearchResult> SearchResults = new ArrayList<>();
 
-        for (String link : Links)
-        {
+        for (String link : Links) {
             //getTitle from link;
             Document document;
 
@@ -175,20 +153,18 @@ public class HelloController {
             //get FirstOccurence of all words from link;
             String temp;
             StringBuilder occurence = new StringBuilder();
-            for (String word : queryWords)
-            {
+            for (String word : queryWords) {
                 //getOccurence from word and link;
-                 temp = DB_Controller.getFirstOcuurenceString(word, link);
-                if (temp.equals(""))
-                {
+                temp = DB_Controller.getFirstOcuurenceString(word, link);
+                if (temp.equals("")) {
                     continue;
                 }
-                 occurence.append(temp);
-                    occurence.append("\n");
+                occurence.append(temp);
+                occurence.append("\n");
             }
 
 
-            SearchResults.add(new SearchResult( link ,occurence.toString() , title));
+            SearchResults.add(new SearchResult(link, occurence.toString(), title));
 
             //GetFirstOccurence
         }
@@ -196,8 +172,6 @@ public class HelloController {
 
         return SearchResults;
     }
-    
-    
 
-    
+
 }
