@@ -1,5 +1,5 @@
 # Search Engine Project
-
+![](frontpage.jpeg)
 ## How to run the code
 
 
