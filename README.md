@@ -1,5 +1,12 @@
 # Search Engine Project
 ![](frontpage.jpeg)
+
+## Description
+<strong>Ya Halla</strong> is a search engine that is built using Java. The project is divided into two parts: the back-end and the front-end. The back-end is built using Java and Spring Boot. The front-end is built using ReactJS. The back-end is responsible for crawling the web, indexing the crawled pages, and providing the front-end with the search results. The front-end is responsible for providing the user with a search bar and displaying the search results.
+
+
+
+
 ## How to run the Project
 
 
