@@ -20,7 +20,7 @@ public class DB_Controller {
     static private final String INDEXER_LINKS_COLLECTION = "WordDocuments";
     static private final Logger_custom logger = new Logger_custom(DB_Controller.class.getPackageName(), null);
     static private final String LOCAL_DB_CONNECTION_STRING = "mongodb://localhost:27017";
-    static private final String REMOTE_DB_CONNECTION_STRING = "mongodb+srv://ahmedhussein00:9thNQZQc7hANflRt@sw-backend.ktfxxtz.mongodb.net/?retryWrites=true&w=majority";
+    static private final String REMOTE_DB_CONNECTION_STRING = "";
     static MongoClient client = MongoClients.create(LOCAL_DB_CONNECTION_STRING);
     public static MongoDatabase db = client.getDatabase(DATABASE_NAME);
     public static MongoCollection<Document> crawler_links = db.getCollection(CRAWLER_LINKS_COLLECTION);
