@@ -39,8 +39,8 @@ public class Logger_custom extends java.util.logging.Logger {
         handler.setFormatter(formatter);
         // Add the handler to the logger
         this.addHandler(handler);
-        handler.setLevel(Level.OFF);
-        this.setLevel(Level.OFF);
+        handler.setLevel(Level.ALL);
+        this.setLevel(Level.ALL);
 
     }
 

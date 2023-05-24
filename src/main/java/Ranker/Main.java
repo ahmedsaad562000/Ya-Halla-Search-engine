@@ -46,6 +46,7 @@ public class Main {
 
     public static HashMap<String, Double> getPageRanks(String[] q) {
         Ranker r = new Ranker();
+        Logger_custom logger = new Logger_custom(Ranker.class.getPackageName(), null);
 
         // Set page rank algorithm settings
         Ranker.PageRank_Settings settings = new Ranker.PageRank_Settings();
@@ -65,6 +66,9 @@ public class Main {
 
         long start_ranking = System.currentTimeMillis();
         HashMap<String, Double> results = r.getPageRanks(q);
+        long end_ranking = System.currentTimeMillis();
+        logger.config("Ranking took " + (end_ranking - start_ranking) / 1000f + " seconds net");
+        logger.config("Ranker returned " + results.size() + " results");
         // Convert the HashMap to a List of Map.Entry objects
         List<Map.Entry<String, Double>> list = new ArrayList<>(results.entrySet());
 

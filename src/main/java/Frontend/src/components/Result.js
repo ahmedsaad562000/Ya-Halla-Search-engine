@@ -7,8 +7,8 @@ const Result = ({query, occurence, url, title}) => {
 
     // Split the text into an array of substrings
     //   const parts = text.split(pattern);
-    console.log("wordsArray", wordsArray);
-    console.log("query", query);
+    // console.log("wordsArray", wordsArray);
+    // console.log("query", query);
     const wordIndex = wordsArray.indexOf(query);
     const lower_index = wordIndex - 80 < 0 ? 0 : wordIndex - 80;
     const upper_index = wordIndex + 90 > wordsArray.length ? wordsArray.length : wordIndex + 90;

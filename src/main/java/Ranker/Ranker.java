@@ -382,8 +382,8 @@ public class Ranker {
 
                 // TODO Calculate the relevance score with element score
                 // Calculate TF-IDF score for this document (URL)
-                document_word_tfidf = (TF * IDF);
-               // System.out.println("Word = " + document.get("word", String.class) + " TF = " + TF + " IDF = " + IDF + " element_weight = " + element_weight + " total_word_tf_idf = " + document_word_tfidf);
+                document_word_tfidf = (TF * IDF) + 0.1 * element_weight;
+                // System.out.println("Word = " + document.get("word", String.class) + " TF = " + TF + " IDF = " + IDF + " element_weight = " + element_weight + " total_word_tf_idf = " + document_word_tfidf);
 
                 // If this document does not exist in the documents vector, create it
                 if (documents_vector.get(URL) == null) {

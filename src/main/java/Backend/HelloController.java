@@ -11,7 +11,7 @@ import org.tartarus.snowball.ext.porterStemmer;
 import java.io.IOException;
 import java.util.*;
 
-
+@CrossOrigin
 @RestController
 public class HelloController {
 
@@ -30,7 +30,7 @@ public class HelloController {
     // make a post request to /api/employees/{id}
 
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     @GetMapping("/upload")
     public HashMap<String, Object> upload(
             @RequestParam("search") String SearchQuery, @RequestParam("phrase") boolean phrase , @RequestParam("page") int page ) {
@@ -102,7 +102,7 @@ public class HelloController {
             }
             long end = System.currentTimeMillis();
             double time = (end - start) / 1000.0;
-            returned_results.put("number", links.size()/10);
+            returned_results.put("number", links.size());
             returned_results.put("time", time);
             returned_results.put("results", results);
         }
@@ -128,7 +128,7 @@ public class HelloController {
             double time = (end - start) / 1000.0;
             returned_results.put("time", time);
             //map to list
-            returned_results.put("number", links.size()/10);
+            returned_results.put("number", links.size());
 
             returned_results.put("results", results);
         }
