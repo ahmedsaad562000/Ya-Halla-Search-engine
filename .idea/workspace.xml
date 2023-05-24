@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="540df1e2-074a-4496-9be9-4e73b21510b3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/github_rholder_snowball_stemmer.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/maven_wrapper.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Backend/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Backend/Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Backend/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Backend/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DBController/DB_Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DBController/DB_Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Frontend/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frontend/src/components/Header.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Frontend/src/components/Result.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frontend/src/components/Result.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frontend/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Frontend/src/pages/Results.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frontend/src/pages/Results.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Logger_custom/Logger_custom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Logger_custom/Logger_custom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Ranker/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ranker/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Ranker/Ranker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ranker/Ranker.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,6 +33,7 @@
     <setting file="file://$PROJECT_DIR$/src/main/java/Backend/Application.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/Backend/HelloController.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/Backend/SearchResultRepo.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/Frontend/src/components/Result.js" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/Ranker/Ranker.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -58,35 +58,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/APT/Project/lib/snowball-stemmer-1.3.0.581.1.jar&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.3321839&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;template.copyright.formatting&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;ef221de801e84c7479e7b6e28c6db005&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Downloaded.Files.Path.Enabled": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/h4z3m/Desktop/Files/College/3rd/2nd Semester/CMPN306/Search_Engine_Project/lib/snowball-stemmer-1.3.0.581.1.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.3321839",
+    "settings.editor.selected.configurable": "template.copyright.formatting",
+    "spring.configuration.checksum": "ef221de801e84c7479e7b6e28c6db005",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\h4z3m\Desktop\Files\College\3rd\2nd Semester\CMPN306\Search_Engine_Project\src\main\java\Indexer_Futures" />
@@ -207,6 +207,7 @@
       <workItem from="1684713987981" duration="7000" />
       <workItem from="1684765971342" duration="1000" />
       <workItem from="1684784854034" duration="198000" />
+      <workItem from="1684954362226" duration="7469000" />
     </task>
     <task id="LOCAL-00001" summary="Add Files">
       <created>1682546577429</created>
@@ -355,7 +356,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684394525858</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="pagination">
+      <created>1684954580902</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1684954580902</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -397,7 +405,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Ranker/Ranker.java</url>
-          <line>285</line>
+          <line>339</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

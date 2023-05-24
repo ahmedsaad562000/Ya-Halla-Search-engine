@@ -5,7 +5,15 @@ import logo from '../HALLA.png'
 
 const Header = ({query}) => {
 
+    const handleClick = (e) => {
+        e.preventDefault();
+        const query = document.getElementById("default-search").value;
 
+        if (query) {
+            window.location.href = `/results?query=${query}`;
+        } else {
+        }
+    };
     return (
         <header>
             <nav class=" border-neutral-200 py-8  bg-slate-800  flex flex-row">
@@ -13,13 +21,19 @@ const Header = ({query}) => {
                     <img class="h-12   " src={logo} alt="logo"/>
                 </a>
 
-                <div class="flex flex-col flex-wrap justify-between items-left ml-12 max-w-screen-xl">
+                <div class="grid grid-flow-col auto-cols-max   flex-wrap justify-between items-left ml-12 max-w-screen-xl">
 
 
-                    <input value={query ? query : ""} style={{width: "700px"}} type="text" id="default-search"
+                    <input defaultValue={query ? query : ""} style={{width: "700px"}} type="text" id="default-search"
                            class="mt-0   p-4 pl-10 text-sm text-white border rounded-lg   bg-gray-700  border-neutral-600  placeholder-neutral-400   focus:ring-red-500  focus:border-red-500 appearance-none "
                            placeholder="text" required/>
-
+                    <button
+                        onClick={handleClick}
+                        type="button"
+                        className="  mt-4 ml-5 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-12 py-3  mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+                    >
+                        Yalla Tany
+                    </button>
 
                 </div>
                 {/* <div className='flex flex-row mt-6'>

@@ -5,6 +5,10 @@ import Logger_custom.Logger_custom;
 import org.bson.Document;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -41,6 +45,15 @@ public class Ranker {
      */
     public Ranker() {
 
+    }
+
+    private static <T> List<List<T>> partitionList(List<T> list, int numPartitions) {
+        List<List<T>> partitions = new ArrayList<>(numPartitions);
+        int partitionSize = (int) Math.ceil(list.size() / (double) numPartitions);
+        for (int i = 0; i < list.size(); i += partitionSize) {
+            partitions.add(list.subList(i, Math.min(i + partitionSize, list.size())));
+        }
+        return partitions;
     }
 
     /**
@@ -118,15 +131,15 @@ public class Ranker {
             LinkedHashMap<String, Double> relevant_pages = startRelevanceRank(query);
             long end_tfidf = System.currentTimeMillis();
             logger.config("TF-IDF time: " + (end_tfidf - start_tfidf) + "ms");
-            logger.info("Relevant pages: " + relevant_pages);
+//            logger.info("Relevant pages: " + relevant_pages);
             logger.info("PageRank started");
             long start_pr = System.currentTimeMillis();
             startPageRank(relevant_pages.keySet().toArray(new String[0]));
             long end_pr = System.currentTimeMillis();
             logger.config("TF-IDF time: " + (end_pr - start_pr) + "ms");
             logger.info("PageRank finished");
-            logger.info("Page ranks results: " + pageRanks.toString());
-            logger.info("TF-IDF results: " + relevant_pages);
+//            logger.info("Page ranks results: " + pageRanks.toString());
+//            logger.info("TF-IDF results: " + relevant_pages);
             long start_combine = System.currentTimeMillis();
             HashMap<String, Double> combined_rank = combineScores(relevant_pages, (HashMap<String, Double>) pageRanks);
             long end_combine = System.currentTimeMillis();
@@ -200,45 +213,86 @@ public class Ranker {
      * Calculates the page rank for each page and returns a map with rank of each page.
      */
     private void calculatePageRank() {
-        double page_rank;
+//        double page_rank;
         Map<String, Double> lastPageRank = new HashMap<>();
-        Map<String, Double> currentPageRankMap;
+//        Map<String, Double> currentPageRankMap;
         boolean stop = false;
 
+//        for (int k = 0; !stop && (k < PR_settings.iterations); k++) {
+//            currentPageRankMap = new HashMap<>();
+//            for (String page : adjList.keySet()) {
+//                page_rank = 0;
+//                for (String edge : adjList.keySet()) {
+//                    if (pageGraph.hasEdge(edge, page))
+//                        page_rank += (pageRanks.get(edge) / contributionVector.get(edge));
+//                }
+//                currentPageRankMap.put(page, PR_settings.offset + PR_settings.dampingFactor * page_rank);
+//            }
+//            // Normalize the magnitudes of all ranks
+//            double sum = currentPageRankMap.values().stream().reduce(0.0, Double::sum);
+//            double inverseMagnitude = 1.0 / sum;
+//
+//            // Check for convergence
+//            for (Map.Entry<String, Double> entry : currentPageRankMap.entrySet()) {
+//                //Check entry not null
+//                if (entry.getValue() != null && lastPageRank.get(entry.getKey()) != null) {
+//                    if (Math.abs(entry.getValue() - lastPageRank.get(entry.getKey())) < PR_settings.convergenceThreshold) {
+//                        stop = true;
+//                        logger.info("Converged after " + k + " iterations");
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            // Update the page ranks
+//            currentPageRankMap.replaceAll((p, v) -> v * inverseMagnitude);
+//            lastPageRank = pageRanks;
+//            pageRanks = currentPageRankMap;
+//        }
+
+        int numThreads = Runtime.getRuntime().availableProcessors();
+        ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+
+        Map<String, Double> currentPageRankMap = new ConcurrentHashMap<>();
+
+        List<List<String>> subLists = partitionList(new ArrayList<>(adjList.keySet()), numThreads);
+
         for (int k = 0; !stop && (k < PR_settings.iterations); k++) {
-            currentPageRankMap = new HashMap<>();
-            for (String page : adjList.keySet()) {
-                page_rank = 0;
-                for (String edge : adjList.keySet()) {
-                    if (pageGraph.hasEdge(edge, page))
-                        page_rank += (pageRanks.get(edge) / contributionVector.get(edge));
+            currentPageRankMap.clear();
+            for (List<String> subList : subLists) {
+                if (!executor.isShutdown()) {
+                    executor.submit(() -> {
+                        Map<String, Double> subPageRankMap = new HashMap<>();
+                        for (String page : subList) {
+                            double page_rank = 0;
+                            for (String edge : adjList.keySet()) {
+                                if (pageGraph.hasEdge(edge, page))
+                                    page_rank += (pageRanks.get(edge) / contributionVector.get(edge));
+                            }
+                            subPageRankMap.put(page, PR_settings.offset + PR_settings.dampingFactor * page_rank);
+                        }
+                        currentPageRankMap.putAll(subPageRankMap);
+                    });
                 }
-                currentPageRankMap.put(page, PR_settings.offset + PR_settings.dampingFactor * page_rank);
             }
+            executor.shutdown();
+            try {
+                executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            } catch (InterruptedException e) {
+                logger.warning("Interrupted while waiting for threads to finish");
+            }
+
             // Normalize the magnitudes of all ranks
             double sum = currentPageRankMap.values().stream().reduce(0.0, Double::sum);
             double inverseMagnitude = 1.0 / sum;
 
-            // Check for convergence
-            for (Map.Entry<String, Double> entry : currentPageRankMap.entrySet()) {
-                //Check entry not null
-                if (entry.getValue() != null && lastPageRank.get(entry.getKey()) != null) {
-                    if (Math.abs(entry.getValue() - lastPageRank.get(entry.getKey())) < PR_settings.convergenceThreshold) {
-                        stop = true;
-                        logger.info("Converged after " + k + " iterations");
-                        break;
-                    }
-                }
-            }
-
             // Update the page ranks
             currentPageRankMap.replaceAll((p, v) -> v * inverseMagnitude);
-            lastPageRank = pageRanks;
             pageRanks = currentPageRankMap;
         }
         // Sort page ranks in descending order
         pageRanks = pageRanks.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-        logger.info(pageRanks.toString());
+//        logger.info(pageRanks.toString());
         if (!stop) logger.finer("Iterations reached maximum");
     }
 
@@ -401,8 +455,8 @@ public class Ranker {
                 }
             }
         }
-        logger.info(query_vector.toString());
-        logger.info(documents_vector.toString());
+//        logger.info(query_vector.toString());
+//        logger.info(documents_vector.toString());
 
         // Calculate relevance score for each page
         Set<String> querySet = new HashSet<>(Arrays.asList(query));

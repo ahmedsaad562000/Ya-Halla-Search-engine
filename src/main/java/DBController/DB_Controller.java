@@ -170,7 +170,7 @@ public class DB_Controller {
 
         Bson getAllWordsFromQuery = Filters.in("word", query);
         FindIterable<Document> It = indexer_links.find(getAllWordsFromQuery);
-        logger.warning(It.toString());
+//        logger.warning(It.toString());
         int i = 0;
         for (Document document : It) {
             query_info.add(document);
@@ -194,11 +194,11 @@ public class DB_Controller {
         Bson getDestinations = Filters.in("dest_id", links);
 
         FindIterable<Document> It = crawler_relations.find(Filters.or(getSources, getDestinations));
-        logger.warning(It.toString());
+//        logger.warning(It.toString());
         for (Document document : It) {
             query_info.add(document);
         }
-        query_info.forEach(document -> logger.warning(document.toJson()));
+//        query_info.forEach(document -> logger.warning(document.toJson()));
         return query_info.toArray(new Document[0]);
     }
 
@@ -250,7 +250,7 @@ public class DB_Controller {
             cache_result.getList("pages", Document.class).add(page);
         }
         cache_result.append("date_saved", new Date());
-        logger.warning(cache_result.toJson());
+//        logger.warning(cache_result.toJson());
         if (QueryCache.find(Filters.eq("query", Arrays.asList(query))).first() == null)
             QueryCache.insertOne(cache_result);
         else QueryCache.replaceOne(Filters.eq("query", Arrays.asList(query)), cache_result);
